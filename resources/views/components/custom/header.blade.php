@@ -24,11 +24,11 @@
                    class="text-white hover:bg-[#8B6F4F] px-5 py-2.5 rounded-lg text-base font-medium transition duration-300 {{ request()->routeIs('katalog') ? 'bg-[#8B6F4F]' : '' }}">
                     KATALOG PRODUK
                 </a>
-                <a href="#" 
+               <a href="{{ route('profil') }}"
                    class="text-white hover:bg-[#8B6F4F] px-5 py-2.5 rounded-lg text-base font-medium transition duration-300">
                     PROFIL PERUSAHAAN
                 </a>
-                <a href="#" 
+                <a href="{{ route('kontak') }}"
                    class="text-white hover:bg-[#8B6F4F] px-5 py-2.5 rounded-lg text-base font-medium transition duration-300">
                     HUBUNGI KAMI
                 </a>
