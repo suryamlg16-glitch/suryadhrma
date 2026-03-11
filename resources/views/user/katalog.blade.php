@@ -118,21 +118,21 @@
     </div>
 
     <!-- CTA SECTION -->
-    <div class="bg-[#8B6F4F] py-10">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
-                <div class="text-center sm:text-left">
-                    <h3 class="text-xl md:text-2xl font-semibold text-white mb-1">Siap Mewujudkan Ruang Impian Anda?</h3>
-                    <p class="text-white/80 text-sm">Konsultasikan kebutuhan furniture Anda dengan tim kami</p>
-                </div>
-                <a href="#" 
-                   class="group inline-flex items-center gap-2 bg-white text-[#8B6F4F] px-6 py-3 rounded-full font-medium transition-all duration-300 hover:shadow-lg hover:scale-105">
-                    <span>Hubungi Kami</span>
-                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
-                </a>
+<div class="bg-[#8B6F4F] py-10">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="text-center sm:text-left">
+                <h3 class="text-xl md:text-2xl font-semibold text-white mb-1">Siap Mewujudkan Ruang Impian Anda?</h3>
+                <p class="text-white/80 text-sm">Konsultasikan kebutuhan furniture Anda dengan tim kami</p>
             </div>
+            <a href="{{ route('kontak') }}" 
+               class="group inline-flex items-center gap-2 bg-white text-[#8B6F4F] px-6 py-3 rounded-full font-medium transition-all duration-300 hover:shadow-lg hover:scale-105">
+                <span>Hubungi Kami</span>
+                <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
         </div>
     </div>
+</div>
 @endsection
