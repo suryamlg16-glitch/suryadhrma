@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
+    /**
+     * Display the specified product for frontend.
+     */
     public function show($slug)
     {
-        // Ambil detail produk berdasarkan slug
+        // Ambil produk berdasarkan slug
         $produk = Produk::with('kategori')
                        ->where('slug', $slug)
                        ->firstOrFail();

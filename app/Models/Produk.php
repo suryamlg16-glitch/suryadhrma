@@ -9,8 +9,9 @@ class Produk extends Model
     protected $table = 'produks';
     
     protected $fillable = [
-        'nama_produk', 'slug', 'deskripsi', 'harga', 
-        'stok', 'gambar', 'id_kategori', 'id_admin'
+        'nama_produk', 'slug', 'deskripsi', 'deskripsi_singkat', 
+        'harga', 'harga_min', 'harga_max', 'stok', 'unggulan',
+        'gambar_utama', 'id_kategori', 'id_admin'
     ];
 
     protected static function boot()

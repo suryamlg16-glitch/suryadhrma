@@ -12,6 +12,7 @@ class KatalogController extends Controller
     {
         $query = Produk::with('kategori');
         
+        // Filter berdasarkan kategori
         if ($request->has('kategori') && $request->kategori != '') {
             $kategoriFilter = Kategori::where('slug', $request->kategori)->first();
             if ($kategoriFilter) {
@@ -19,13 +20,33 @@ class KatalogController extends Controller
             }
         }
         
+        // Filter berdasarkan pencarian
         if ($request->has('search') && $request->search != '') {
             $query->where('nama_produk', 'like', '%' . $request->search . '%');
         }
         
+        // Sorting
+        if ($request->has('sort') && $request->sort != '') {
+            switch($request->sort) {
+                case 'termurah':
+                    $query->orderBy('harga', 'asc');
+                    break;
+                case 'termahal':
+                    $query->orderBy('harga', 'desc');
+                    break;
+                case 'terbaru':
+                default:
+                    $query->latest();
+                    break;
+            }
+        } else {
+            $query->latest();
+        }
+        
+        // Pagination: 9 produk per halaman
         $produk = $query->paginate(9);
         
-        // Ambil semua kategori untuk sidebar - pakai nama $kategori
+        // Ambil semua kategori untuk filter (jika diperlukan)
         $kategori = Kategori::all();
         
         return view('user.katalog', compact('produk', 'kategori'));
@@ -33,16 +54,14 @@ class KatalogController extends Controller
     
     public function kategori($slug)
     {
-        // Ini kategori yang dipilih
-        $kategoriTerpilih = Kategori::where('slug', $slug)->firstOrFail();
+        $kategori = Kategori::where('slug', $slug)->firstOrFail();
         
         $produk = Produk::with('kategori')
-                       ->where('id_kategori', $kategoriTerpilih->id_kategori)
+                       ->where('id_kategori', $kategori->id_kategori)
                        ->paginate(9);
         
-        // Ambil semua kategori untuk sidebar
-        $kategori = Kategori::all();
+        $semuaKategori = Kategori::all();
         
-        return view('user.katalog', compact('produk', 'kategori', 'kategoriTerpilih'));
+        return view('user.katalog', compact('produk', 'semuaKategori', 'kategori'));
     }
 }

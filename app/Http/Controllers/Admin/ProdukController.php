@@ -1,0 +1,145 @@
+<?php
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Produk;
+use App\Models\Kategori;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+class ProdukController extends Controller
+{
+    /**
+     * Display a listing of the products.
+     */
+    public function index()
+    {
+        $produk = Produk::with('kategori')->latest()->paginate(10);
+        return view('admin.produk.index', compact('produk'));
+    }
+
+    /**
+     * Show the form for creating a new product.
+     */
+    public function create()
+    {
+        $kategori = Kategori::all();
+        return view('admin.produk.create', compact('kategori'));
+    }
+
+    /**
+     * Store a newly created product in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'kategori_id' => 'required|exists:kategoris,id_kategori',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'deskripsi' => 'required|string',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $data = $request->all();
+        $data['slug'] = Str::slug($request->nama_produk);
+        $data['id_admin'] = auth()->id();
+
+        // Cek apakah slug sudah ada
+        $slugExists = Produk::where('slug', $data['slug'])->exists();
+        if ($slugExists) {
+            $data['slug'] = $data['slug'] . '-' . time();
+        }
+
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/produk'), $filename);
+            $data['gambar_utama'] = 'produk/' . $filename;
+        }
+
+        Produk::create($data);
+
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil ditambahkan');
+    }
+
+    /**
+     * Display the specified product.
+     */
+    public function show($id)
+    {
+        $produk = Produk::with('kategori')->findOrFail($id);
+        return view('admin.produk.show', compact('produk'));
+    }
+
+    /**
+     * Show the form for editing the specified product.
+     */
+    public function edit($id)
+    {
+        $produk = Produk::findOrFail($id);
+        $kategori = Kategori::all();
+        return view('admin.produk.edit', compact('produk', 'kategori'));
+    }
+
+    /**
+     * Update the specified product in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $produk = Produk::findOrFail($id);
+
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'kategori_id' => 'required|exists:kategoris,id_kategori',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'deskripsi' => 'required|string',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $data = $request->all();
+
+        // Update slug jika nama produk berubah
+        if ($produk->nama_produk != $request->nama_produk) {
+            $data['slug'] = Str::slug($request->nama_produk);
+            $slugExists = Produk::where('slug', $data['slug'])->where('id', '!=', $id)->exists();
+            if ($slugExists) {
+                $data['slug'] = $data['slug'] . '-' . time();
+            }
+        }
+
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($produk->gambar_utama && file_exists(public_path('images/' . $produk->gambar_utama))) {
+                unlink(public_path('images/' . $produk->gambar_utama));
+            }
+            
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/produk'), $filename);
+            $data['gambar_utama'] = 'produk/' . $filename;
+        }
+
+        $produk->update($data);
+
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil diupdate');
+    }
+
+    /**
+     * Remove the specified product from storage.
+     */
+    public function destroy($id)
+    {
+        $produk = Produk::findOrFail($id);
+        
+        // Hapus gambar
+        if ($produk->gambar_utama && file_exists(public_path('images/' . $produk->gambar_utama))) {
+            unlink(public_path('images/' . $produk->gambar_utama));
+        }
+        
+        $produk->delete();
+        
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil dihapus');
+    }
+}
