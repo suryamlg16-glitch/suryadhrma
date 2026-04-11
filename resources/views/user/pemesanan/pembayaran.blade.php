@@ -4,12 +4,14 @@
 
 @section('content')
 <!-- Breadcrumb -->
-<div class="bg-gray-50 border-b border-gray-100">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <div class="flex items-center gap-2 text-xs">
+<div class="bg-gray-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex items-center gap-2 text-sm">
             <a href="{{ route('beranda') }}" class="text-gray-500 hover:text-[#B08968]">Beranda</a>
             <span class="text-gray-400">/</span>
             <a href="{{ route('katalog') }}" class="text-gray-500 hover:text-[#B08968]">Katalog</a>
+            <span class="text-gray-400">/</span>
+            <a href="{{ route('produk.detail', $produk->slug ?? '#') }}" class="text-gray-500 hover:text-[#B08968]">{{ $produk->nama_produk ?? 'Produk' }}</a>
             <span class="text-gray-400">/</span>
             <span class="text-[#B08968] font-medium">Checkout - Pembayaran</span>
         </div>
@@ -20,21 +22,21 @@
 <div class="bg-white border-b border-gray-100">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex items-center justify-center gap-3 md:gap-6">
-            <!-- Step 1: Alamat (Completed) -->
+            <!-- Step 1: Alamat (Selesai) -->
             <div class="flex items-center gap-1.5">
                 <div class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-semibold">✓</div>
                 <span class="font-medium text-xs text-green-600">Alamat</span>
             </div>
             <div class="w-8 h-px bg-green-500"></div>
             
-            <!-- Step 2: Pengiriman (Completed) -->
+            <!-- Step 2: Pengiriman (Selesai) -->
             <div class="flex items-center gap-1.5">
                 <div class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-semibold">✓</div>
                 <span class="font-medium text-xs text-green-600">Pengiriman</span>
             </div>
             <div class="w-8 h-px bg-green-500"></div>
             
-            <!-- Step 3: Pembayaran (Active) -->
+            <!-- Step 3: Pembayaran (Aktif) -->
             <div class="flex items-center gap-1.5">
                 <div class="w-6 h-6 bg-[#B08968] text-white rounded-full flex items-center justify-center text-xs font-semibold">3</div>
                 <span class="font-medium text-xs text-[#B08968]">Pembayaran</span>
@@ -70,10 +72,10 @@
                             <svg class="w-24 h-24 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4M12 4h4M4 4h4M4 20h4M12 20h4M4 12h2M12 12h2M20 12h2M12 12h2M12 4h2"></path>
                             </svg>
-                            <p class="text-xs text-gray-500 mt-1">QRIS Code</p>
+                            <p class="text-xs text-gray-500 mt-1">Kode QRIS</p>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-500 mb-3">Scan QR Code menggunakan aplikasi mobile banking atau e-wallet</p>
+                    <p class="text-xs text-gray-500 mb-3">Scan kode QR menggunakan aplikasi mobile banking atau e-wallet</p>
                     
                     <!-- Ringkasan Pembayaran -->
                     <div class="bg-gray-50 rounded-lg p-3 mb-4">
@@ -87,7 +89,8 @@
                         </div>
                     </div>
                     
-                    <form action="#" method="POST" id="formQRIS">
+                    <!-- FORM QRIS -->
+                    <form action="{{ route('pesan.store.pembayaran') }}" method="POST" id="formQRIS">
                         @csrf
                         <input type="hidden" name="metode" value="qris">
                         <button type="submit" 
@@ -166,20 +169,19 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
                         </svg>
                         <p class="text-xs text-gray-500">Klik untuk upload bukti pembayaran</p>
-                        <p class="text-[10px] text-gray-400 mt-1">Format JPG, PNG, PDF (Max 2MB)</p>
-                        <input type="file" id="buktiBayar" class="hidden" accept="image/*,.pdf">
+                        <p class="text-[10px] text-gray-400 mt-1">Format JPG, PNG, PDF (Maks 2MB)</p>
+                        <input type="file" id="buktiBayar" name="bukti_pembayaran" class="hidden" accept="image/*,.pdf">
                     </div>
                     <div id="fileNameDisplay" class="text-xs text-gray-500 mt-2 text-center hidden">
                         File terpilih: <span id="fileName"></span>
                     </div>
                 </div>
                 
-                <!-- Tombol Bayar -->
-                <form action="#" method="POST" id="formTransfer">
+                <!-- FORM TRANSFER -->
+                <form action="{{ route('pesan.store.pembayaran') }}" method="POST" id="formTransfer" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="metode" value="transfer">
                     <input type="hidden" name="tanggal_transfer" id="tanggalTransferInput">
-                    <input type="hidden" name="bukti_pembayaran" id="buktiPath">
                     <button type="submit" 
                             class="w-full bg-[#B08968] text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-[#8B6F4F] transition duration-300 shadow-sm text-sm">
                         Bayar Sekarang

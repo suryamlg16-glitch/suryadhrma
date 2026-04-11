@@ -22,7 +22,7 @@
 <div class="bg-white border-b border-gray-100">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex items-center justify-center gap-3 md:gap-6">
-            <!-- Step 1: Alamat (Active) -->
+            <!-- Step 1: Alamat (Aktif) -->
             <div class="flex items-center gap-1.5">
                 <div class="w-6 h-6 bg-[#B08968] text-white rounded-full flex items-center justify-center text-xs font-semibold">1</div>
                 <span class="font-medium text-xs text-[#B08968]">Alamat</span>
@@ -202,7 +202,7 @@
                 <div class="mt-6">
                     <button type="submit" 
                             class="w-full bg-[#B08968] text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-[#8B6F4F] transition duration-300 shadow-md hover:shadow-lg text-sm">
-                        Lanjutkan Ke Pengiriman
+                        Lanjutkan ke Pengiriman
                     </button>
                 </div>
             </form>

@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
+use App\Models\Pesanan;
+use App\Models\DetailPesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -159,5 +161,117 @@ class PemesananController extends Controller
         ]);
         
         return view('user.pemesanan.pembayaran', compact('alamat', 'produk', 'pengiriman', 'subtotal', 'ongkir', 'total'));
+    }
+    
+    /**
+     * Simpan data pembayaran ke database
+     */
+    public function storePembayaran(Request $request)
+    {
+        Log::info('storePembayaran() dipanggil', $request->all());
+        
+        $request->validate([
+            'metode' => 'required|in:qris,transfer',
+        ]);
+        
+        // Ambil data dari session
+        $alamat = session()->get('pemesanan.alamat');
+        $produkId = session()->get('pemesanan.produk_id');
+        $pengiriman = session()->get('pemesanan.pengiriman');
+        $produk = Produk::find($produkId);
+        
+        if (!$produk) {
+            return redirect()->route('katalog')->with('error', 'Produk tidak ditemukan');
+        }
+        
+        // Hitung total
+        $subtotal = $produk->harga;
+        $ongkir = $pengiriman['biaya'] ?? 50000;
+        $total = $subtotal + $ongkir;
+        
+        // Generate kode invoice unik
+        $invoice = 'INV-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
+        
+        // Simpan ke database tabel pesanan
+        $pesanan = Pesanan::create([
+            'kode_invoice' => $invoice,
+            'id_user' => auth()->id() ?? null,
+            'nama_pelanggan' => $alamat['nama_lengkap'],
+            'no_wa' => $alamat['no_wa'],
+            'alamat_lengkap' => $alamat['alamat_lengkap'] . ', ' . $alamat['kecamatan'] . ', ' . $alamat['kota'],
+            'tanggal_pesanan' => now(),
+            'total_harga' => $total,
+            'status_pesanan' => 'pending',
+            'kurir' => $pengiriman['kurir'] ?? 'jne_reguler',
+            'metode_pembayaran' => $request->metode,
+        ]);
+        
+        // Simpan detail pesanan
+        DetailPesanan::create([
+            'id_pesanan' => $pesanan->id_pesanan,
+            'id_produk' => $produk->id,
+            'jumlah' => 1,
+            'harga_satuan' => $produk->harga,
+            'subtotal' => $produk->harga,
+        ]);
+        
+        // Simpan invoice ke session
+        session()->put('pemesanan.invoice', $invoice);
+        session()->put('pemesanan.metode_pembayaran', $request->metode);
+        session()->save();
+        
+        Log::info('Pesanan berhasil disimpan', [
+            'invoice' => $invoice,
+            'pesanan_id' => $pesanan->id_pesanan
+        ]);
+        
+        return redirect()->route('pesanan.sukses');
+    }
+    
+    /**
+     * Tampilkan halaman sukses pesanan
+     */
+    public function sukses()
+    {
+        Log::info('sukses() dipanggil');
+        
+        // Ambil data dari session
+        $alamat = session()->get('pemesanan.alamat');
+        $produkId = session()->get('pemesanan.produk_id');
+        $pengiriman = session()->get('pemesanan.pengiriman');
+        $invoice = session()->get('pemesanan.invoice');
+        $metodePembayaran = session()->get('pemesanan.metode_pembayaran');
+        
+        // Jika tidak ada data, redirect ke beranda
+        if (!$alamat || !$produkId) {
+            return redirect()->route('beranda')->with('error', 'Silakan mulai pemesanan dari awal');
+        }
+        
+        // Ambil data produk
+        $produk = Produk::find($produkId);
+        
+        if (!$produk) {
+            return redirect()->route('katalog')->with('error', 'Produk tidak ditemukan');
+        }
+        
+        // Hitung total
+        $subtotal = $produk->harga;
+        $ongkir = $pengiriman['biaya'] ?? 50000;
+        $total = $subtotal + $ongkir;
+        $kurir = $pengiriman['kurir'] ?? 'JNE Reguler';
+        
+        $data = [
+            'invoice' => $invoice ?? 'INV-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6)),
+            'produk' => $produk,
+            'alamat' => $alamat,
+            'kurir' => $kurir,
+            'metode_pembayaran' => $metodePembayaran ?? 'Transfer Bank',
+            'subtotal' => $subtotal,
+            'ongkir' => $ongkir,
+            'total' => $total,
+            'tanggal' => date('d F Y'),
+        ];
+        
+        return view('user.pesanan-sukses', $data);
     }
 }

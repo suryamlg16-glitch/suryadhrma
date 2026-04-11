@@ -4,12 +4,14 @@
 
 @section('content')
 <!-- Breadcrumb -->
-<div class="bg-gray-50 border-b border-gray-100">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <div class="flex items-center gap-2 text-xs">
+<div class="bg-gray-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex items-center gap-2 text-sm">
             <a href="{{ route('beranda') }}" class="text-gray-500 hover:text-[#B08968]">Beranda</a>
             <span class="text-gray-400">/</span>
             <a href="{{ route('katalog') }}" class="text-gray-500 hover:text-[#B08968]">Katalog</a>
+            <span class="text-gray-400">/</span>
+            <a href="{{ route('produk.detail', $produk->slug ?? '#') }}" class="text-gray-500 hover:text-[#B08968]">{{ $produk->nama_produk ?? 'Produk' }}</a>
             <span class="text-gray-400">/</span>
             <span class="text-[#B08968] font-medium">Checkout - Pengiriman</span>
         </div>
@@ -20,14 +22,14 @@
 <div class="bg-white border-b border-gray-100">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex items-center justify-center gap-3 md:gap-6">
-            <!-- Step 1: Alamat (Completed) -->
+            <!-- Step 1: Alamat (Selesai) -->
             <div class="flex items-center gap-1.5">
                 <div class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-semibold">✓</div>
                 <span class="font-medium text-xs text-green-600">Alamat</span>
             </div>
             <div class="w-8 h-px bg-green-500"></div>
             
-            <!-- Step 2: Pengiriman (Active) -->
+            <!-- Step 2: Pengiriman (Aktif) -->
             <div class="flex items-center gap-1.5">
                 <div class="w-6 h-6 bg-[#B08968] text-white rounded-full flex items-center justify-center text-xs font-semibold">2</div>
                 <span class="font-medium text-xs text-[#B08968]">Pengiriman</span>
@@ -76,7 +78,7 @@
                     </div>
                 </div>
                 
-                <!-- Pilihan Pengiriman -->
+                <!-- Pilihan Kurir -->
                 <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
                     <div class="bg-gradient-to-r from-[#B08968]/10 to-[#8B6F4F]/10 px-5 py-3 border-b border-gray-100">
                         <h2 class="text-base font-bold text-gray-900">Pilih Kurir</h2>
@@ -117,7 +119,7 @@
                             <input type="hidden" name="biaya_pengiriman" id="biaya_pengiriman" value="50000">
                         </div>
                         
-                        <!-- Metode Pembayaran Preview -->
+                        <!-- Ringkasan Pembayaran -->
                         <div class="border-t border-gray-100 px-4 py-3 bg-gray-50">
                             <div class="flex items-center justify-between mb-1.5">
                                 <span class="text-xs text-gray-500">Subtotal</span>
@@ -137,7 +139,7 @@
                         <div class="px-4 py-3 border-t border-gray-100">
                             <button type="submit" 
                                     class="w-full bg-[#B08968] text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-[#8B6F4F] transition duration-300 shadow-sm text-sm">
-                                Lanjutkan Ke Pembayaran
+                                Lanjutkan ke Pembayaran
                             </button>
                         </div>
                     </form>
@@ -160,7 +162,7 @@
                             </div>
                             <div>
                                 <h3 class="font-semibold text-sm text-gray-800">{{ $produk->nama_produk }}</h3>
-                                <p class="text-xs text-gray-500 mt-0.5">Qty : 1</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Jumlah: 1</p>
                                 <p class="text-xs font-semibold text-[#B08968] mt-1">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
                             </div>
                         </div>
@@ -170,7 +172,7 @@
                             <div class="flex flex-wrap gap-1.5">
                                 <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">COD</span>
                                 <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">QRIS</span>
-                                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">TF BANK</span>
+                                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">TRANSFER</span>
                             </div>
                         </div>
                     </div>
