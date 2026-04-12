@@ -17,11 +17,11 @@
         </div>
     </div>
 
-    <!-- FILTER & SEARCH SECTION -->
+   <!-- SEARCH SECTION - SEARCH BAR DI KIRI -->
     <div class="bg-white border-y border-gray-100 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row gap-3 justify-between items-center">
-                <!-- Search Bar -->
+            <!-- Search Bar di Kiri -->
+            <div class="flex justify-start">
                 <div class="w-full md:w-72">
                     <div class="relative">
                         <input type="text" id="search-input"
@@ -32,17 +32,6 @@
                         </svg>
                     </div>
                 </div>
-
-                <!-- Sort By -->
-                <div class="flex items-center gap-2">
-                    <span class="text-xs text-gray-500 whitespace-nowrap">Urutkan:</span>
-                    <select class="px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#B08968]/30 bg-gray-50 text-sm text-gray-600">
-                        <option value="terbaru">Terbaru</option>
-                        <option value="termurah">Termurah</option>
-                        <option value="termahal">Termahal</option>
-                        <option value="populer">Populer</option>
-                    </select>
-                </div>
             </div>
         </div>
     </div>
@@ -50,10 +39,10 @@
     <!-- PRODUCT GRID -->
     <div class="bg-gray-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="product-grid">
+                
                 <!-- PRODUK 1 - Kursi Tamu Jati -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300" data-product="Kursi Tamu Jati">
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 product-card" data-product="Kursi Tamu Jati">
                     <div class="relative pb-[100%] overflow-hidden bg-gray-100">
                         <img src="{{ asset('images/imagemeja.jpeg') }}"
                              alt="Kursi Tamu Jati"
@@ -74,7 +63,7 @@
                 </div>
 
                 <!-- PRODUK 2 - Meja Makan Marmer -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300" data-product="Meja Makan Marmer">
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 product-card" data-product="Meja Makan Marmer">
                     <div class="relative pb-[100%] overflow-hidden bg-gray-100">
                         <img src="{{ asset('images/imagedapur.jpeg') }}"
                              alt="Meja Makan Marmer"
@@ -95,7 +84,7 @@
                 </div>
 
                 <!-- PRODUK 3 - Lemari Pakaian 3 Pintu -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300" data-product="Lemari Pakaian 3 Pintu">
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 product-card" data-product="Lemari Pakaian 3 Pintu">
                     <div class="relative pb-[100%] overflow-hidden bg-gray-100">
                         <img src="{{ asset('images/imagelemari.jpeg') }}"
                              alt="Lemari Pakaian 3 Pintu"
@@ -116,7 +105,7 @@
                 </div>
 
                 <!-- PRODUK 4 - Rak Buku Minimalis -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300" data-product="Rak Buku Minimalis">
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 product-card" data-product="Rak Buku Minimalis">
                     <div class="relative pb-[100%] overflow-hidden bg-gray-100">
                         <img src="{{ asset('images/imagedekorasi.jpeg') }}"
                              alt="Rak Buku Minimalis"
@@ -137,7 +126,7 @@
                 </div>
 
                 <!-- PRODUK 5 - Backdrop TV -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300" data-product="Backdrop TV">
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 product-card" data-product="Backdrop TV">
                     <div class="relative pb-[100%] overflow-hidden bg-gray-100">
                         <img src="{{ asset('images/imageruangtamu.jpeg') }}"
                              alt="Backdrop TV"
@@ -158,7 +147,7 @@
                 </div>
 
                 <!-- PRODUK 6 - Kitchen Set Minimalis -->
-                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300" data-product="Kitchen Set Minimalis">
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 product-card" data-product="Kitchen Set Minimalis">
                     <div class="relative pb-[100%] overflow-hidden bg-gray-100">
                         <img src="{{ asset('images/imagedapur2.jpeg') }}"
                              alt="Kitchen Set Minimalis"
@@ -179,20 +168,65 @@
                 </div>
 
             </div>
+
+            <!-- EMPTY STATE -->
+            <div id="empty-state" class="text-center py-12 hidden">
+                <div class="max-w-sm mx-auto">
+                    <svg class="w-20 h-20 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-sm font-medium">Produk tidak ditemukan</p>
+                    <p class="text-gray-400 text-xs mt-1">Coba dengan kata kunci lain</p>
+                </div>
+            </div>
+
         </div>
     </div>
 
+    <!-- EMPTY STATE -->
+            <div id="empty-state" class="text-center py-12 hidden">
+                <div class="max-w-sm mx-auto">
+                    <svg class="w-20 h-20 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-sm font-medium">Produk tidak ditemukan</p>
+                    <p class="text-gray-400 text-xs mt-1">Coba dengan kata kunci lain</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SEARCH SCRIPT -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('search-input');
-        const productCards = document.querySelectorAll('[data-product]');
+        const productCards = document.querySelectorAll('.product-card');
+        const emptyState = document.getElementById('empty-state');
+        const productGrid = document.getElementById('product-grid');
 
         let timeout;
         function filterProducts(searchTerm) {
+            let visibleCount = 0;
+            
             productCards.forEach(function(card) {
                 const productName = card.getAttribute('data-product').toLowerCase();
-                card.style.display = productName.includes(searchTerm) ? '' : 'none';
+                if (productName.includes(searchTerm)) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
             });
+            
+            // Tampilkan empty state jika tidak ada produk yang terlihat
+            if (visibleCount === 0 && searchTerm !== '') {
+                emptyState.classList.remove('hidden');
+                productGrid.classList.add('justify-center');
+            } else {
+                emptyState.classList.add('hidden');
+                productGrid.classList.remove('justify-center');
+            }
         }
 
         if (searchInput) {
@@ -205,24 +239,14 @@
     });
     </script>
 
-    <!-- PAGINATION -->
+    <!-- PAGINATION - DINAMIS (SESUAI DENGAN DATA DARI DATABASE NANTI) -->
     <div class="bg-gray-50 pb-8">
         <div class="flex justify-center">
-            <nav class="flex items-center gap-1.5">
-                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-[#B08968] hover:text-white hover:border-[#B08968] transition text-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                </a>
-                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#B08968] text-white font-medium text-sm">1</a>
-                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-[#B08968] hover:text-white hover:border-[#B08968] transition text-sm">2</a>
-                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-[#B08968] hover:text-white hover:border-[#B08968] transition text-sm">3</a>
-                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-[#B08968] hover:text-white hover:border-[#B08968] transition text-sm">4</a>
-                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-[#B08968] hover:text-white hover:border-[#B08968] transition text-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+            <nav class="flex items-center gap-1.5" id="pagination-container">
+                <!-- Pagination akan di-generate oleh Laravel nanti -->
+                <div class="text-sm text-gray-500">
+                    Menampilkan 1-6 dari 6 produk
+                </div>
             </nav>
         </div>
     </div>

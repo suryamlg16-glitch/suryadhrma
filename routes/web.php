@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\BerandaController;
 use App\Http\Controllers\Frontend\KatalogController;
 use App\Http\Controllers\Frontend\ProdukController;
 use App\Http\Controllers\Frontend\PemesananController;
+use App\Http\Controllers\Frontend\TrackingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,18 @@ Route::post('/pesan/store-alamat', [PemesananController::class, 'storeAlamat'])-
 Route::get('/pesan/pengiriman', [PemesananController::class, 'pengiriman'])->name('pesan.pengiriman');
 Route::post('/pesan/store-pengiriman', [PemesananController::class, 'storePengiriman'])->name('pesan.store.pengiriman');
 Route::get('/pesan/pembayaran', [PemesananController::class, 'pembayaran'])->name('pesan.pembayaran');
+Route::post('/pesan/store-pembayaran', [PemesananController::class, 'storePembayaran'])->name('pesan.store.pembayaran');
+
+//Route konfirmasi pembayaran
+Route::post('/pesan/store-pembayaran', [PemesananController::class, 'storePembayaran'])->name('pesan.store.pembayaran');
+
+//Route pesanan sukses
+Route::get('/pesanan/sukses', [PemesananController::class, 'sukses'])->name('pesanan.sukses');
+
+//Route Tracking
+Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking.index');
+Route::post('/tracking/cek', [TrackingController::class, 'cek'])->name('tracking.cek');
+Route::get('/tracking/{invoice}', [TrackingController::class, 'show'])->name('tracking.show');
 
 // ROUTE ADMIN
 // Login Admin (tanpa middleware)
@@ -60,12 +73,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/pesanan/{id}', [PesananController::class, 'show'])->name('pesanan.show');
     Route::put('/pesanan/{id}/status', [PesananController::class, 'updateStatus'])->name('pesanan.status');
 
-     // Route Transaksi
+    // Route Transaksi
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
     Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
     Route::put('/transaksi/{id}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.status');
 });
-
 
 // Route Dashboard & Auth
 Route::get('/dashboard', function () {

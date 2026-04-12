@@ -50,7 +50,33 @@ class PesananController extends Controller
         ]);
         
         $pesanan = Pesanan::findOrFail($id);
-        $pesanan->update(['status_pesanan' => $request->status]);
+        $pesanan->status_pesanan = $request->status;
+        
+        // Update timestamp sesuai status
+        switch($request->status) {
+            case 'diproses':
+                if (!$pesanan->tanggal_diproses) {
+                    $pesanan->tanggal_diproses = now();
+                }
+                break;
+            case 'dikirim':
+                if (!$pesanan->tanggal_dikirim) {
+                    $pesanan->tanggal_dikirim = now();
+                }
+                break;
+            case 'selesai':
+                if (!$pesanan->tanggal_selesai) {
+                    $pesanan->tanggal_selesai = now();
+                }
+                break;
+            case 'dibatalkan':
+                if (!$pesanan->tanggal_dibatalkan) {
+                    $pesanan->tanggal_dibatalkan = now();
+                }
+                break;
+        }
+        
+        $pesanan->save();
         
         return redirect()->back()->with('success', 'Status pesanan berhasil diupdate');
     }
