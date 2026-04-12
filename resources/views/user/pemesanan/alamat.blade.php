@@ -80,7 +80,7 @@
             </div>
             
             <!-- Form -->
-            <form action="{{ route('pesan.store.alamat') }}" method="POST" class="p-5">
+            <form action="{{ route('pesan.store.alamat') }}" method="POST" class="p-5" id="checkoutForm">
                 @csrf
                 <input type="hidden" name="produk_id" value="{{ $produk->id }}">
                 
@@ -205,8 +205,112 @@
                         Lanjutkan ke Pengiriman
                     </button>
                 </div>
+                
+                <!-- Tombol Hapus Data Tersimpan (Opsional) -->
+                <div class="mt-3 text-center">
+                    <button type="button" 
+                            id="resetDataBtn"
+                            class="text-xs text-gray-400 hover:text-red-500 transition">
+                        Hapus Data Tersimpan
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- SCRIPT LOCAL STORAGE -->
+<script>
+    // KEY untuk menyimpan di localStorage
+    const STORAGE_KEY = 'guest_checkout_data';
+    
+    // Fungsi untuk mengambil data dari localStorage
+    function loadSavedData() {
+        const savedData = localStorage.getItem(STORAGE_KEY);
+        if (savedData) {
+            try {
+                const data = JSON.parse(savedData);
+                
+                // Isi input dengan data yang tersimpan (hanya jika input kosong)
+                if (data.nama_lengkap && !document.getElementById('nama_lengkap').value) 
+                    document.getElementById('nama_lengkap').value = data.nama_lengkap;
+                if (data.email && !document.getElementById('email').value) 
+                    document.getElementById('email').value = data.email;
+                if (data.no_wa && !document.getElementById('no_wa').value) 
+                    document.getElementById('no_wa').value = data.no_wa;
+                if (data.kota && !document.getElementById('kota').value) 
+                    document.getElementById('kota').value = data.kota;
+                if (data.kecamatan && !document.getElementById('kecamatan').value) 
+                    document.getElementById('kecamatan').value = data.kecamatan;
+                if (data.alamat_lengkap && !document.getElementById('alamat_lengkap').value) 
+                    document.getElementById('alamat_lengkap').value = data.alamat_lengkap;
+                if (data.catatan && !document.getElementById('catatan').value) 
+                    document.getElementById('catatan').value = data.catatan;
+            } catch (e) {
+                console.error('Error loading saved data:', e);
+            }
+        }
+    }
+    
+    // Fungsi untuk menyimpan data ke localStorage
+    function saveFormData() {
+        const formData = {
+            nama_lengkap: document.getElementById('nama_lengkap').value,
+            email: document.getElementById('email').value,
+            no_wa: document.getElementById('no_wa').value,
+            kota: document.getElementById('kota').value,
+            kecamatan: document.getElementById('kecamatan').value,
+            alamat_lengkap: document.getElementById('alamat_lengkap').value,
+            catatan: document.getElementById('catatan').value,
+            last_updated: new Date().toISOString()
+        };
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+    }
+    
+    // Fungsi untuk menghapus data tersimpan
+    function resetSavedData() {
+        if (confirm('Apakah Anda yakin ingin menghapus semua data alamat tersimpan?')) {
+            localStorage.removeItem(STORAGE_KEY);
+            // Reset semua input form
+            document.getElementById('nama_lengkap').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('no_wa').value = '';
+            document.getElementById('kota').value = '';
+            document.getElementById('kecamatan').value = '';
+            document.getElementById('alamat_lengkap').value = '';
+            document.getElementById('catatan').value = '';
+            alert('Data tersimpan telah dihapus!');
+        }
+    }
+    
+    // Load data saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSavedData();
+        
+        // Simpan data saat input berubah (real-time)
+        const inputIds = ['nama_lengkap', 'email', 'no_wa', 'kota', 'kecamatan', 'alamat_lengkap', 'catatan'];
+        inputIds.forEach(id => {
+            const input = document.getElementById(id);
+            if (input) {
+                input.addEventListener('input', saveFormData);
+                input.addEventListener('change', saveFormData);
+            }
+        });
+        
+        // Event listener untuk tombol reset
+        const resetBtn = document.getElementById('resetDataBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', resetSavedData);
+        }
+    });
+    
+    // Simpan data juga saat form akan disubmit (opsional)
+    const checkoutForm = document.getElementById('checkoutForm');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function() {
+            saveFormData();
+        });
+    }
+</script>
 @endsection

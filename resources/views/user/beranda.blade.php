@@ -266,62 +266,57 @@
     </div>
 
     <!-- REKOMENDASI PRODUK -->
-    <div class="bg-gradient-to-b from-gray-50 to-white py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-6 reveal" data-delay="0">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                    Rekomendasi <span class="text-[#B08968]">Untuk Anda</span>
-                </h2>
-                <p class="text-sm text-gray-600">Koleksi pilihan yang bisa menjadi referensi untuk ruangan Anda</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                @php
-                    $products = [
-                        ['name' => 'Kursi Tamu Jati', 'price' => '1.500.000', 'image' => 'imagemeja.jpeg', 'slug' => 'kursi-tamu-jati', 'delay' => '0.1'],
-                        ['name' => 'Meja Makan Marmer', 'price' => '3.500.000', 'image' => 'imagedapur.jpeg', 'slug' => 'meja-makan-marmer', 'delay' => '0.2'],
-                        ['name' => 'Lemari Pakaian 3 Pintu', 'price' => '4.500.000', 'image' => 'imageruangtamu.jpeg', 'slug' => 'lemari-pakaian-3-pintu', 'delay' => '0.3'],
-                        ['name' => 'Rak Buku Minimalis', 'price' => '1.200.000', 'image' => 'imagedapur2.jpeg', 'slug' => 'rak-buku-minimalis', 'delay' => '0.4'],
-                    ];
-                @endphp
-
-                @foreach($products as $product)
-                <div class="reveal group relative bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 hover:-translate-y-1 card-hover image-zoom" data-delay="{{ $product['delay'] }}">
-                    <div class="relative pb-[100%] overflow-hidden">
-                        <img src="{{ asset('images/' . $product['image']) }}" 
-                             alt="{{ $product['name'] }}" 
-                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="bg-gradient-to-b from-gray-50 to-white py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-6 reveal" data-delay="0">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                Rekomendasi <span class="text-[#B08968]">Untuk Anda</span>
+            </h2>
+            <p class="text-sm text-gray-600">Koleksi pilihan yang bisa menjadi referensi untuk ruangan Anda</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            @forelse($produkTerbaru as $index => $produk)
+            <div class="reveal group relative bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 hover:-translate-y-1 card-hover image-zoom" data-delay="{{ 0.1 + ($index * 0.1) }}">
+                <div class="relative pb-[100%] overflow-hidden">
+                    <img src="{{ asset('images/' . $produk->gambar_utama) }}" 
+                         alt="{{ $produk->nama_produk }}" 
+                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+                <div class="p-3">
+                    <h3 class="font-semibold text-sm text-gray-800 mb-1 line-clamp-1">{{ $produk->nama_produk }}</h3>
+                    <div class="flex items-center justify-between">
+                        <p class="text-base font-bold text-[#B08968]">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                        <span class="text-xs text-gray-500">/meter</span>
                     </div>
-                    <div class="p-3">
-                        <h3 class="font-semibold text-sm text-gray-800 mb-1 line-clamp-1">{{ $product['name'] }}</h3>
-                        <div class="flex items-center justify-between">
-                            <p class="text-base font-bold text-[#B08968]">Rp {{ $product['price'] }}</p>
-                            <span class="text-xs text-gray-500">/meter</span>
-                        </div>
-                        <div class="mt-2">
-                            <a href="{{ route('produk.detail', $product['slug']) }}" 
-                               class="block w-full text-center border border-[#B08968] text-[#B08968] text-xs py-1.5 rounded-lg hover:bg-[#B08968] hover:text-white transition">
-                                Lihat Detail
-                            </a>
-                        </div>
+                    <div class="mt-2">
+                        <a href="{{ route('produk.detail', $produk->slug) }}" 
+                           class="block w-full text-center border border-[#B08968] text-[#B08968] text-xs py-1.5 rounded-lg hover:bg-[#B08968] hover:text-white transition">
+                            Lihat Detail
+                        </a>
                     </div>
                 </div>
-                @endforeach
             </div>
-            
-            <div class="text-center mt-6 reveal" data-delay="0.5">
-                <a href="{{ route('katalog') }}" 
-                   class="group inline-flex items-center gap-2 bg-[#B08968] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#8B6F4F] transition-all duration-300 shadow-md hover:shadow-lg text-sm">
-                    <span>Lihat Semua Produk</span>
-                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
-                </a>
+            @empty
+            <div class="col-span-4 text-center py-8">
+                <p class="text-gray-500">Belum ada produk tersedia</p>
             </div>
+            @endforelse
+        </div>
+        
+        <div class="text-center mt-6 reveal" data-delay="0.5">
+            <a href="{{ route('katalog') }}" 
+               class="group inline-flex items-center gap-2 bg-[#B08968] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#8B6F4F] transition-all duration-300 shadow-md hover:shadow-lg text-sm">
+                <span>Lihat Semua Produk</span>
+                <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
         </div>
     </div>
-            
+</div>
+                  
     <!-- TESTIMONI -->
     <div class="bg-white py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

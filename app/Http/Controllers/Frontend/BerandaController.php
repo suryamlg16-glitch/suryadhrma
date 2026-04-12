@@ -16,7 +16,7 @@ class BerandaController extends Controller
         // Ambil 6 produk terbaru
         $produkTerbaru = Produk::with('kategori')
                                ->latest()
-                               ->take(6)
+                               ->take(4)
                                ->get();
         
         // Ambil semua kategori untuk keperluan navigasi
