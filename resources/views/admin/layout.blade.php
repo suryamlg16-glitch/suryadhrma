@@ -55,6 +55,13 @@
                         <i class="fas fa-box w-4 text-sm"></i>
                         <span class="font-medium">Kelola Produk</span>
                     </a>
+
+                    <!-- Kelola Kategori -->
+                    <a href="{{ route('admin.kategori.index') }}" 
+                       class="nav-item flex items-center gap-2 px-3 py-2 rounded-lg mb-1.5 transition-all duration-300 text-sm {{ request()->routeIs('admin.kategori.*') ? 'bg-white/20 shadow-md' : 'hover:bg-white/10' }}">
+                        <i class="fas fa-tags w-4 text-sm"></i>
+                        <span class="font-medium">Kelola Kategori</span>
+                    </a>
                     
                     <!-- Kelola Pesanan -->
                     <a href="{{ route('admin.pesanan.index') }}" 
@@ -118,6 +125,18 @@
             
             <!-- Content -->
             <div class="flex-1 p-5">
+                @if(session('success'))
+                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-3 rounded-lg mb-4 text-sm">
+                        <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 rounded-lg mb-4 text-sm">
+                        <i class="fas fa-exclamation-circle mr-2"></i> {{ session('error') }}
+                    </div>
+                @endif
+
                 @yield('content')
             </div>
             
@@ -155,4 +174,4 @@
         }
     </style>
 </body>
-</html> 
+</html>

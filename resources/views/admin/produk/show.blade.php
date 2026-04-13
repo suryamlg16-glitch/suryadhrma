@@ -5,7 +5,7 @@
 @section('subheader', 'Informasi lengkap produk')
 
 @section('content')
-<div class="max-w-3xl mx-auto">
+<div class="space-y-4">
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="p-5">
             <div class="flex items-center justify-between mb-5">
@@ -50,7 +50,9 @@
                     </div>
                     <div>
                         <p class="text-xs text-gray-500">Stok</p>
-                        <p class="font-medium text-gray-800 text-sm {{ $produk->stok <= 5 ? 'text-red-500' : '' }}">{{ $produk->stok }} unit</p>
+                        <p class="font-medium text-gray-800 text-sm {{ $produk->stok <= 5 ? 'text-red-500' : '' }}">
+                            {{ $produk->stok }} unit
+                        </p>
                     </div>
                 </div>
                 <div>

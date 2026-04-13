@@ -5,131 +5,145 @@
 @section('subheader', 'Informasi lengkap transaksi pembayaran')
 
 @section('content')
-<div class="max-w-4xl mx-auto">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <!-- Header -->
-        <div class="p-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
-            <div class="flex justify-between items-center">
+<div class="space-y-4">
+    <!-- Status Banner -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+            <div>
+                <span class="text-xs text-gray-500">KODE TRANSAKSI</span>
+                <h2 class="text-xl font-bold text-gray-800">{{ $transaksi->kode_transaksi }}</h2>
+            </div>
+            <div class="flex items-center gap-4">
                 <div>
-                    <h1 class="text-xl font-bold text-gray-800">#{{ str_pad($transaksi->id_pesanan, 5, '0', STR_PAD_LEFT) }}</h1>
-                    <p class="text-xs text-gray-500 mt-0.5">Tanggal: {{ \Carbon\Carbon::parse($transaksi->tanggal_pesanan)->translatedFormat('d F Y, H:i') }}</p>
+                    <span class="text-xs text-gray-500">Status</span>
+                    <div>
+                        @if($transaksi->status == 'sukses')
+                            <span class="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs">
+                                <i class="fas fa-check-circle"></i> Sukses
+                            </span>
+                        @elseif($transaksi->status == 'pending')
+                            <span class="inline-flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-xs">
+                                <i class="fas fa-clock"></i> Pending
+                            </span>
+                        @else
+                            <span class="inline-flex items-center gap-1 px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs">
+                                <i class="fas fa-times-circle"></i> Gagal
+                            </span>
+                        @endif
+                    </div>
                 </div>
-                <div class="flex gap-2">
-                    <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-                        <i class="fas fa-check-circle text-xs"></i> Selesai
-                    </span>
+                <div>
+                    <span class="text-xs text-gray-500">Tanggal Transaksi</span>
+                    <p class="font-medium text-gray-800">{{ $transaksi->created_at->format('d/m/Y H:i') }}</p>
                 </div>
+            </div>
+            <a href="{{ route('admin.transaksi.index') }}" class="text-[#B08968] hover:text-[#8B6F4F] text-sm">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Informasi Transaksi -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                <h3 class="font-semibold text-gray-800 text-sm">
+                    <i class="fas fa-info-circle text-[#B08968] mr-2"></i> Informasi Transaksi
+                </h3>
+            </div>
+            <div class="p-4 space-y-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <p class="text-[10px] text-gray-500">Kode Transaksi</p>
+                        <p class="font-medium text-gray-800 text-sm">{{ $transaksi->kode_transaksi }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500">Metode Pembayaran</p>
+                        <p class="font-medium text-gray-800 text-sm uppercase">{{ $transaksi->metode_pembayaran }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500">Jumlah Dibayar</p>
+                        <p class="font-bold text-[#B08968] text-lg">Rp {{ number_format($transaksi->jumlah_dibayar, 0, ',', '.') }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500">Tanggal Pembayaran</p>
+                        <p class="font-medium text-gray-800 text-sm">{{ $transaksi->tanggal_pembayaran ? $transaksi->tanggal_pembayaran->format('d/m/Y H:i') : '-' }}</p>
+                    </div>
+                </div>
+                @if($transaksi->catatan)
+                <div>
+                    <p class="text-[10px] text-gray-500">Catatan</p>
+                    <p class="text-sm text-gray-600 bg-gray-50 p-2 rounded-lg">{{ $transaksi->catatan }}</p>
+                </div>
+                @endif
             </div>
         </div>
         
-        <div class="p-5">
-            <!-- Informasi Transaksi -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-                <div class="bg-gray-50 rounded-lg p-3">
-                    <p class="text-[10px] text-gray-500 uppercase tracking-wider">Metode Pembayaran</p>
-                    <p class="text-base font-semibold text-gray-800 mt-0.5">
-                        {{ strtoupper($transaksi->pembayaran->metode_pembayaran ?? '-') }}
-                    </p>
-                </div>
-                <div class="bg-gray-50 rounded-lg p-3">
-                    <p class="text-[10px] text-gray-500 uppercase tracking-wider">Status Pembayaran</p>
-                    <p class="text-base font-semibold 
-                        @if($transaksi->pembayaran && $transaksi->pembayaran->status == 'sukses') text-green-600
-                        @elseif($transaksi->pembayaran && $transaksi->pembayaran->status == 'pending') text-yellow-600
-                        @else text-red-600 @endif mt-0.5">
-                        {{ ucfirst($transaksi->pembayaran->status ?? 'Pending') }}
-                    </p>
-                </div>
-                <div class="bg-gray-50 rounded-lg p-3">
-                    <p class="text-[10px] text-gray-500 uppercase tracking-wider">Total Pembayaran</p>
-                    <p class="text-xl font-bold text-[#B08968] mt-0.5">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
-                </div>
+        <!-- Informasi Pesanan Terkait -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                <h3 class="font-semibold text-gray-800 text-sm">
+                    <i class="fas fa-shopping-cart text-[#B08968] mr-2"></i> Informasi Pesanan
+                </h3>
             </div>
-            
-            <!-- Detail Pelanggan -->
-            <div class="mb-6">
-                <h3 class="text-sm font-semibold text-gray-800 border-b border-gray-100 pb-1.5 mb-3">Informasi Pelanggan</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="p-4 space-y-3">
+                <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <p class="text-[10px] text-gray-500">Nama</p>
-                        <p class="font-medium text-gray-800 text-sm">{{ $transaksi->user->name ?? 'Guest' }}</p>
+                        <p class="text-[10px] text-gray-500">ID Pesanan</p>
+                        <p class="font-medium text-gray-800 text-sm">#{{ str_pad($transaksi->pesanan->id_pesanan ?? 0, 5, '0', STR_PAD_LEFT) }}</p>
                     </div>
                     <div>
-                        <p class="text-[10px] text-gray-500">Email</p>
-                        <p class="font-medium text-gray-800 text-sm">{{ $transaksi->user->email ?? '-' }}</p>
+                        <p class="text-[10px] text-gray-500">Status Pesanan</p>
+                        <p class="font-medium text-gray-800 text-sm">{{ ucfirst($transaksi->pesanan->status_pesanan ?? '-') }}</p>
                     </div>
                     <div>
-                        <p class="text-[10px] text-gray-500">Telepon</p>
-                        <p class="font-medium text-gray-800 text-sm">{{ session('pemesanan.alamat.no_wa') ?? '-' }}</p>
+                        <p class="text-[10px] text-gray-500">Pelanggan</p>
+                        <p class="font-medium text-gray-800 text-sm">{{ $transaksi->pesanan->nama_pelanggan ?? '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-[10px] text-gray-500">Alamat</p>
-                        <p class="font-medium text-gray-800 text-sm">{{ session('pemesanan.alamat.alamat_lengkap') ?? '-' }}</p>
+                        <p class="text-[10px] text-gray-500">Total Pesanan</p>
+                        <p class="font-medium text-gray-800 text-sm">Rp {{ number_format($transaksi->pesanan->total_harga ?? 0, 0, ',', '.') }}</p>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Detail Produk -->
-            <div class="mb-6">
-                <h3 class="text-sm font-semibold text-gray-800 border-b border-gray-100 pb-1.5 mb-3">Detail Produk</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-3 py-2 text-left text-[10px] font-semibold text-gray-500">Produk</th>
-                                <th class="px-3 py-2 text-left text-[10px] font-semibold text-gray-500">Harga Satuan</th>
-                                <th class="px-3 py-2 text-left text-[10px] font-semibold text-gray-500">Jumlah</th>
-                                <th class="px-3 py-2 text-left text-[10px] font-semibold text-gray-500">Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            @forelse($transaksi->detailPesanan as $detail)
-                            <tr>
-                                <td class="px-3 py-2.5">
-                                    <p class="font-medium text-gray-800 text-sm">{{ $detail->produk->nama_produk ?? '-' }}</p>
-                                </td>
-                                <td class="px-3 py-2.5 text-xs text-gray-600">Rp {{ number_format($detail->harga_satuan, 0, ',', '.') }}</td>
-                                <td class="px-3 py-2.5 text-xs text-gray-600">{{ $detail->jumlah }}</td>
-                                <td class="px-3 py-2.5 font-semibold text-[#B08968] text-sm">Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="4" class="px-3 py-6 text-center text-gray-500 text-sm">
-                                    Tidak ada detail produk
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                        <tfoot class="bg-gray-50">
-                            <tr>
-                                <td colspan="3" class="px-3 py-2.5 text-right font-semibold text-sm">Total</td>
-                                <td class="px-3 py-2.5 font-bold text-[#B08968] text-base">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Bukti Pembayaran (jika ada) -->
-            @if($transaksi->pembayaran && $transaksi->pembayaran->bukti_pembayaran)
-            <div class="mb-6">
-                <h3 class="text-sm font-semibold text-gray-800 border-b border-gray-100 pb-1.5 mb-3">Bukti Pembayaran</h3>
-                <div class="bg-gray-50 rounded-lg p-3">
-                    <img src="{{ asset('storage/' . $transaksi->pembayaran->bukti_pembayaran) }}" 
-                         alt="Bukti Pembayaran"
-                         class="max-w-xs rounded-lg shadow-sm">
-                </div>
-            </div>
-            @endif
-            
-            <!-- Tombol Kembali -->
-            <div class="flex justify-end">
-                <a href="{{ route('admin.transaksi.index') }}" 
-                   class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm">
-                    <i class="fas fa-arrow-left text-xs"></i> Kembali
+                <a href="{{ route('admin.pesanan.show', $transaksi->id_pesanan) }}" 
+                   class="inline-flex items-center gap-1 text-[#B08968] hover:text-[#8B6F4F] text-xs">
+                    <i class="fas fa-external-link-alt"></i> Lihat Detail Pesanan
                 </a>
             </div>
         </div>
     </div>
+    
+    <!-- Update Status -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+        <h3 class="font-semibold text-gray-800 text-sm mb-3">
+            <i class="fas fa-edit text-[#B08968] mr-2"></i> Update Status Transaksi
+        </h3>
+        <form action="{{ route('admin.transaksi.status', $transaksi->id_pembayaran) }}" method="POST" class="flex items-center gap-3">
+            @csrf
+            @method('PUT')
+            <select name="status" class="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B08968]">
+                <option value="pending" {{ $transaksi->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="sukses" {{ $transaksi->status == 'sukses' ? 'selected' : '' }}>Sukses</option>
+                <option value="gagal" {{ $transaksi->status == 'gagal' ? 'selected' : '' }}>Gagal</option>
+            </select>
+            <button type="submit" class="px-4 py-2 bg-[#B08968] text-white rounded-lg hover:bg-[#8B6F4F] transition text-sm">
+                Update Status
+            </button>
+        </form>
+    </div>
+    
+    <!-- Bukti Pembayaran -->
+    @if($transaksi->bukti_pembayaran && file_exists(public_path('storage/' . $transaksi->bukti_pembayaran)))
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+        <h3 class="font-semibold text-gray-800 text-sm mb-3">
+            <i class="fas fa-image text-[#B08968] mr-2"></i> Bukti Pembayaran
+        </h3>
+        <div class="flex justify-center">
+            <img src="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}" 
+                 alt="Bukti Pembayaran"
+                 class="max-w-md rounded-lg shadow-sm border">
+        </div>
+    </div>
+    @endif
 </div>
 @endsection

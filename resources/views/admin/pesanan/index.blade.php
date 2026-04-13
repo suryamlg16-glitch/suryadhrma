@@ -7,7 +7,7 @@
 @section('content')
 <div class="space-y-4">
     <!-- Statistik Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3">
             <div class="flex items-center justify-between">
                 <div>
@@ -16,6 +16,18 @@
                 </div>
                 <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
                     <i class="fas fa-shopping-cart text-gray-500 text-sm"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] text-gray-500">Pending</p>
+                    <p class="text-xl font-bold text-gray-500">{{ $statistik['pending'] }}</p>
+                </div>
+                <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-clock text-gray-500 text-sm"></i>
                 </div>
             </div>
         </div>
@@ -111,22 +123,25 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @forelse($pesanan as $item)
-                    <tr class="hover:bg-gray-50 transition">
+                    <tr class="hover:bg-gray-50 transition" 
+                        data-pelanggan="{{ strtolower($item->nama_pelanggan) }}"
+                        data-status="{{ $item->status_pesanan }}"
+                        data-tanggal="{{ $item->tanggal_pesanan->format('Y-m-d') }}">
                         <td class="px-4 py-3">
                             <span class="font-medium text-gray-800 text-sm">#{{ str_pad($item->id_pesanan, 5, '0', STR_PAD_LEFT) }}</span>
-                         </td>
+                        </td>
                         <td class="px-4 py-3">
                             <div>
-                                <p class="font-medium text-gray-800 text-sm">{{ $item->user->name ?? 'Guest' }}</p>
-                                <p class="text-[10px] text-gray-400 mt-0.5">{{ $item->user->email ?? '-' }}</p>
+                                <p class="font-medium text-gray-800 text-sm">{{ $item->nama_pelanggan }}</p>
+                                <p class="text-[10px] text-gray-400 mt-0.5">{{ $item->no_hp }}</p>
                             </div>
-                         </td>
+                        </td>
                         <td class="px-4 py-3 text-xs text-gray-600">
-                            {{ \Carbon\Carbon::parse($item->tanggal_pesanan)->format('d/m/Y') }}
-                         </td>
+                            {{ $item->tanggal_pesanan->format('d/m/Y') }}
+                        </td>
                         <td class="px-4 py-3">
                             <p class="font-semibold text-[#B08968] text-sm">Rp {{ number_format($item->total_harga, 0, ',', '.') }}</p>
-                         </td>
+                        </td>
                         <td class="px-4 py-3">
                             <form action="{{ route('admin.pesanan.status', $item->id_pesanan) }}" method="POST" class="status-form">
                                 @csrf
@@ -144,21 +159,21 @@
                                     <option value="dibatalkan" {{ $item->status_pesanan == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
                                 </select>
                             </form>
-                         </td>
+                        </td>
                         <td class="px-4 py-3">
                             <a href="{{ route('admin.pesanan.show', $item->id_pesanan) }}" 
                                class="text-[#B08968] hover:text-[#8B6F4F] transition text-sm">
                                 <i class="fas fa-eye text-xs"></i> Detail
                             </a>
-                         </td>
-                     </tr>
+                        </td>
+                    </tr>
                     @empty
                     <tr>
                         <td colspan="6" class="px-4 py-8 text-center text-gray-500 text-sm">
                             <i class="fas fa-inbox text-3xl mb-2 text-gray-300"></i>
                             <p>Belum ada pesanan</p>
-                         </td>
-                     </tr>
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -185,7 +200,7 @@
         let rows = document.querySelectorAll('tbody tr');
         
         rows.forEach(row => {
-            let name = row.querySelector('td:nth-child(2) p')?.innerText.toLowerCase() || '';
+            let name = row.getAttribute('data-pelanggan') || '';
             if (name.includes(search)) {
                 row.style.display = '';
             } else {
@@ -200,8 +215,7 @@
         let rows = document.querySelectorAll('tbody tr');
         
         rows.forEach(row => {
-            let select = row.querySelector('td:nth-child(5) select');
-            let rowStatus = select?.value || '';
+            let rowStatus = row.getAttribute('data-status') || '';
             if (!status || rowStatus === status) {
                 row.style.display = '';
             } else {
@@ -216,9 +230,8 @@
         let rows = document.querySelectorAll('tbody tr');
         
         rows.forEach(row => {
-            let rowDate = row.querySelector('td:nth-child(3)')?.innerText.trim() || '';
-            let formattedRowDate = rowDate.split('/').reverse().join('-');
-            if (!date || formattedRowDate === date) {
+            let rowDate = row.getAttribute('data-tanggal') || '';
+            if (!date || rowDate === date) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
