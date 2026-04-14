@@ -7,6 +7,7 @@ use App\Models\Pesanan;
 use App\Models\DetailPesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class PemesananController extends Controller
 {
@@ -68,31 +69,21 @@ class PemesananController extends Controller
             'all_session' => session()->all()
         ]);
         
-        // Ambil data dari session
         $alamat = session()->get('pemesanan.alamat');
         $produkId = session()->get('pemesanan.produk_id');
         
-        Log::info('Data session di pengiriman', [
-            'alamat' => $alamat,
-            'produkId' => $produkId
-        ]);
-        
-        // Jika tidak ada data di session, redirect ke katalog
         if (!$alamat || !$produkId) {
             Log::warning('Session kosong, redirect ke katalog');
             return redirect()->route('katalog')->with('error', 'Silakan mulai pemesanan dari awal');
         }
         
-        // Ambil data produk
         $produk = Produk::find($produkId);
         
-        // Jika produk tidak ditemukan
         if (!$produk) {
             Log::error('Produk tidak ditemukan di pengiriman', ['produkId' => $produkId]);
             return redirect()->route('katalog')->with('error', 'Produk tidak ditemukan');
         }
         
-        Log::info('Menampilkan halaman pengiriman');
         return view('user.pemesanan.pengiriman', compact('alamat', 'produk'));
     }
     
@@ -108,7 +99,6 @@ class PemesananController extends Controller
             'biaya_pengiriman' => 'required|numeric',
         ]);
         
-        // Simpan data pengiriman ke session
         session()->put('pemesanan.pengiriman', [
             'kurir' => $request->kurir,
             'biaya' => $request->biaya_pengiriman,
@@ -125,46 +115,31 @@ class PemesananController extends Controller
     {
         Log::info('pembayaran() dipanggil');
         
-        // Ambil data dari session
         $alamat = session()->get('pemesanan.alamat');
         $produkId = session()->get('pemesanan.produk_id');
         $pengiriman = session()->get('pemesanan.pengiriman');
         
-        // Jika tidak ada data di session, redirect ke katalog
         if (!$alamat || !$produkId || !$pengiriman) {
-            Log::warning('Session tidak lengkap, redirect ke katalog', [
-                'alamat' => $alamat,
-                'produkId' => $produkId,
-                'pengiriman' => $pengiriman
-            ]);
+            Log::warning('Session tidak lengkap, redirect ke katalog');
             return redirect()->route('katalog')->with('error', 'Silakan mulai pemesanan dari awal');
         }
         
-        // Ambil data produk
         $produk = Produk::find($produkId);
         
-        // Jika produk tidak ditemukan
         if (!$produk) {
             Log::error('Produk tidak ditemukan di pembayaran', ['produkId' => $produkId]);
             return redirect()->route('katalog')->with('error', 'Produk tidak ditemukan');
         }
         
-        // Hitung total
         $subtotal = $produk->harga;
         $ongkir = $pengiriman['biaya'];
         $total = $subtotal + $ongkir;
-        
-        Log::info('Menampilkan halaman pembayaran', [
-            'subtotal' => $subtotal,
-            'ongkir' => $ongkir,
-            'total' => $total
-        ]);
         
         return view('user.pemesanan.pembayaran', compact('alamat', 'produk', 'pengiriman', 'subtotal', 'ongkir', 'total'));
     }
     
     /**
-     * Simpan data pembayaran ke database
+     * Simpan data pembayaran ke database - OTOMATIS ISI kode_invoice dan no_wa
      */
     public function storePembayaran(Request $request)
     {
@@ -174,7 +149,6 @@ class PemesananController extends Controller
             'metode' => 'required|in:qris,transfer',
         ]);
         
-        // Ambil data dari session
         $alamat = session()->get('pemesanan.alamat');
         $produkId = session()->get('pemesanan.produk_id');
         $pengiriman = session()->get('pemesanan.pengiriman');
@@ -184,46 +158,60 @@ class PemesananController extends Controller
             return redirect()->route('katalog')->with('error', 'Produk tidak ditemukan');
         }
         
-        // Hitung total
-        $subtotal = $produk->harga;
         $ongkir = $pengiriman['biaya'] ?? 50000;
-        $total = $subtotal + $ongkir;
+        $total = $produk->harga + $ongkir;
         
-        // Generate kode invoice unik
+        // Generate kode invoice unik (PASTI TERISI)
         $invoice = 'INV-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
         
-        // Simpan ke database tabel pesanan
-        $pesanan = Pesanan::create([
-            'kode_invoice' => $invoice,
-            'id_user' => auth()->id() ?? null,
-            'nama_pelanggan' => $alamat['nama_lengkap'],
-            'no_wa' => $alamat['no_wa'],
-            'alamat_lengkap' => $alamat['alamat_lengkap'] . ', ' . $alamat['kecamatan'] . ', ' . $alamat['kota'],
-            'tanggal_pesanan' => now(),
-            'total_harga' => $total,
-            'status_pesanan' => 'pending',
-            'kurir' => $pengiriman['kurir'] ?? 'jne_reguler',
-            'metode_pembayaran' => $request->metode,
-        ]);
+        // Format alamat lengkap
+        $alamatLengkap = $alamat['alamat_lengkap'] . ', ' . $alamat['kecamatan'] . ', ' . $alamat['kota'];
+        if (!empty($alamat['catatan'])) {
+            $alamatLengkap .= ' (Catatan: ' . $alamat['catatan'] . ')';
+        }
         
-        // Simpan detail pesanan
-        DetailPesanan::create([
-            'id_pesanan' => $pesanan->id_pesanan,
-            'id_produk' => $produk->id,
-            'jumlah' => 1,
-            'harga_satuan' => $produk->harga,
-            'subtotal' => $produk->harga,
-        ]);
+        // Gunakan DB transaction untuk memastikan semua tersimpan
+        DB::beginTransaction();
         
-        // Simpan invoice ke session
+        try {
+            // Simpan ke database - PASTIKAN kode_invoice dan no_wa terisi
+            $pesanan = Pesanan::create([
+                'kode_invoice' => $invoice,
+                'id_user' => auth()->id() ?? null,
+                'nama_pelanggan' => $alamat['nama_lengkap'],
+                'no_wa' => $alamat['no_wa'],
+                'alamat_lengkap' => $alamatLengkap,
+                'kurir' => $pengiriman['kurir'] == 'jne_reguler' ? 'JNE Reguler' : 'Cargo Furniture',
+                'metode_pembayaran' => $request->metode,
+                'tanggal_pesanan' => now(),
+                'total_harga' => $total,
+                'status_pesanan' => 'pending',
+            ]);
+            
+            // Simpan detail pesanan
+            DetailPesanan::create([
+                'id_pesanan' => $pesanan->id_pesanan,
+                'id_produk' => $produk->id,
+                'jumlah' => 1,
+                'harga_satuan' => $produk->harga,
+                'subtotal' => $produk->harga,
+            ]);
+            
+            DB::commit();
+            
+            Log::info('Pesanan BERHASIL disimpan dengan invoice: ' . $invoice . ' dan no_wa: ' . $alamat['no_wa']);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Gagal menyimpan pesanan: ' . $e->getMessage());
+            return redirect()->route('katalog')->with('error', 'Gagal memproses pesanan: ' . $e->getMessage());
+        }
+        
+        // Simpan ke session
         session()->put('pemesanan.invoice', $invoice);
         session()->put('pemesanan.metode_pembayaran', $request->metode);
+        session()->put('pemesanan.pesanan_id', $pesanan->id_pesanan);
         session()->save();
-        
-        Log::info('Pesanan berhasil disimpan', [
-            'invoice' => $invoice,
-            'pesanan_id' => $pesanan->id_pesanan
-        ]);
         
         return redirect()->route('pesanan.sukses');
     }
@@ -235,33 +223,31 @@ class PemesananController extends Controller
     {
         Log::info('sukses() dipanggil');
         
-        // Ambil data dari session
         $alamat = session()->get('pemesanan.alamat');
         $produkId = session()->get('pemesanan.produk_id');
         $pengiriman = session()->get('pemesanan.pengiriman');
         $invoice = session()->get('pemesanan.invoice');
         $metodePembayaran = session()->get('pemesanan.metode_pembayaran');
+        $pesananId = session()->get('pemesanan.pesanan_id');
         
-        // Jika tidak ada data, redirect ke beranda
         if (!$alamat || !$produkId) {
             return redirect()->route('beranda')->with('error', 'Silakan mulai pemesanan dari awal');
         }
         
-        // Ambil data produk
         $produk = Produk::find($produkId);
         
         if (!$produk) {
             return redirect()->route('katalog')->with('error', 'Produk tidak ditemukan');
         }
         
-        // Hitung total
         $subtotal = $produk->harga;
         $ongkir = $pengiriman['biaya'] ?? 50000;
         $total = $subtotal + $ongkir;
-        $kurir = $pengiriman['kurir'] ?? 'JNE Reguler';
+        $kurir = $pengiriman['kurir'] == 'jne_reguler' ? 'JNE Reguler' : 'Cargo Furniture';
         
         $data = [
             'invoice' => $invoice ?? 'INV-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6)),
+            'pesanan_id' => $pesananId,
             'produk' => $produk,
             'alamat' => $alamat,
             'kurir' => $kurir,

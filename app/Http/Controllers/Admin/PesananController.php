@@ -24,6 +24,9 @@ class PesananController extends Controller
         // Filter by status
         if ($request->has('status') && $request->status != '') {
             $query->where('status_pesanan', $request->status);
+        } else {
+            // DEFAULT: Sembunyikan pesanan yang sudah selesai
+            $query->where('status_pesanan', '!=', 'selesai');
         }
         
         // Filter by date
@@ -37,6 +40,7 @@ class PesananController extends Controller
         $statistik = [
             'total' => Pesanan::count(),
             'pending' => Pesanan::where('status_pesanan', 'pending')->count(),
+            'dikonfirmasi' => Pesanan::where('status_pesanan', 'dikonfirmasi')->count(),
             'diproses' => Pesanan::where('status_pesanan', 'diproses')->count(),
             'dikirim' => Pesanan::where('status_pesanan', 'dikirim')->count(),
             'selesai' => Pesanan::where('status_pesanan', 'selesai')->count(),
@@ -63,10 +67,25 @@ class PesananController extends Controller
         $pesanan = Pesanan::findOrFail($id);
         
         $request->validate([
-            'status' => 'required|in:pending,diproses,dikirim,selesai,dibatalkan'
+            'status' => 'required|in:pending,dikonfirmasi,diproses,dikirim,selesai,dibatalkan'
         ]);
         
         $pesanan->status_pesanan = $request->status;
+        
+        // Set tanggal sesuai status
+        if ($request->status == 'dikonfirmasi' && !$pesanan->tanggal_konfirmasi) {
+            $pesanan->tanggal_konfirmasi = now();
+        }
+        if ($request->status == 'diproses' && !$pesanan->tanggal_diproses) {
+            $pesanan->tanggal_diproses = now();
+        }
+        if ($request->status == 'dikirim' && !$pesanan->tanggal_dikirim) {
+            $pesanan->tanggal_dikirim = now();
+        }
+        if ($request->status == 'selesai' && !$pesanan->tanggal_selesai) {
+            $pesanan->tanggal_selesai = now();
+        }
+        
         $pesanan->save();
         
         return redirect()->route('admin.pesanan.index')

@@ -30,21 +30,16 @@ class TransaksiController extends Controller
             $query->where('metode_pembayaran', $request->metode);
         }
         
-        // Filter by status
-        if ($request->has('status') && $request->status != '') {
-            $query->where('status', $request->status);
-        }
-        
         $transaksi = $query->latest()->paginate(10);
         
-        // Statistics - MENGGUNAKAN 'jumlah' BUKAN 'jumlah_dibayar'
+        // Statistics - menggunakan 'jumlah'
         $totalPendapatan = Pembayaran::where('status', 'sukses')->sum('jumlah');
         $totalTransaksi = Pembayaran::count();
         $transaksiSukses = Pembayaran::where('status', 'sukses')->count();
         $transaksiPending = Pembayaran::where('status', 'pending')->count();
         $transaksiGagal = Pembayaran::where('status', 'gagal')->count();
         
-        // Statistics by payment method - MENGGUNAKAN 'jumlah'
+        // Statistics by payment method - menggunakan 'jumlah'
         $statistikMetode = [
             'cod' => Pembayaran::where('metode_pembayaran', 'cod')->where('status', 'sukses')->sum('jumlah'),
             'transfer' => Pembayaran::where('metode_pembayaran', 'transfer')->where('status', 'sukses')->sum('jumlah'),
@@ -62,38 +57,5 @@ class TransaksiController extends Controller
     {
         $transaksi = Pembayaran::with('pesanan')->findOrFail($id);
         return view('admin.transaksi.show', compact('transaksi'));
-    }
-
-    /**
-     * Update the status of the specified resource.
-     */
-    public function updateStatus(Request $request, $id)
-    {
-        $transaksi = Pembayaran::findOrFail($id);
-        
-        $request->validate([
-            'status' => 'required|in:pending,sukses,gagal'
-        ]);
-        
-        $transaksi->status = $request->status;
-        
-        if ($request->status == 'sukses' && !$transaksi->tanggal_pembayaran) {
-            $transaksi->tanggal_pembayaran = now();
-        }
-        
-        $transaksi->save();
-        
-        // Update status pembayaran di pesanan jika perlu
-        if ($transaksi->pesanan) {
-            if ($request->status == 'sukses') {
-                $transaksi->pesanan->status_pembayaran = 'paid';
-            } elseif ($request->status == 'gagal') {
-                $transaksi->pesanan->status_pembayaran = 'failed';
-            }
-            $transaksi->pesanan->save();
-        }
-        
-        return redirect()->route('admin.transaksi.index')
-            ->with('success', 'Status transaksi berhasil diupdate!');
     }
 }

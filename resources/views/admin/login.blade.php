@@ -7,150 +7,195 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * {
             font-family: 'Inter', sans-serif;
         }
+        
+        body {
+            background: linear-gradient(135deg, #f8f5f2 0%, #ede5dd 100%);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-15px) translateX(10px); }
+            50% { transform: translateY(0px) translateX(20px); }
+            75% { transform: translateY(15px) translateX(10px); }
+        }
+        
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(1.05); }
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        
+        .animate-float {
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .animate-float-delayed {
+            animation: float 10s ease-in-out infinite reverse;
+        }
+        
         .animate-pulse-slow {
-            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: pulse-slow 6s ease-in-out infinite;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
         }
-        .bg-pattern {
-            background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 1px);
-            background-size: 32px 32px;
+        
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-shine:hover::after {
+            left: 100%;
         }
         
         input:focus {
             outline: none !important;
         }
+        
+        .input-field {
+            transition: all 0.2s ease;
+        }
+        
+        .input-field:focus {
+            border-color: #B08968;
+            box-shadow: 0 0 0 3px rgba(176, 137, 104, 0.1);
+        }
+        
+        .bg-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-[#B08968]/10 via-white to-[#8B6F4F]/10 min-h-screen flex items-center justify-center p-3 relative overflow-hidden">
-    <!-- Decorative Background Elements -->
-    <div class="absolute inset-0 bg-pattern opacity-30"></div>
-    <div class="absolute top-20 left-10 w-52 h-52 bg-[#B08968]/20 rounded-full blur-3xl opacity-30 animate-pulse-slow"></div>
-    <div class="absolute bottom-20 right-10 w-64 h-64 bg-[#8B6F4F]/20 rounded-full blur-3xl opacity-30 animate-pulse-slow"></div>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
     
-    <div class="relative z-10 w-full max-w-sm transform transition-all duration-500 hover:scale-[1.01]">
-        <!-- Card Utama -->
-        <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-5 border border-[#B08968]/20">
-            <!-- Logo Area -->
-            <div class="text-center mb-5">
-                <div class="flex items-center justify-center gap-2 mb-3">
-                    <div class="relative">
-                        <img src="{{ asset('images/logomebel.png') }}" 
-                             alt="Logo Mebel" 
-                             class="h-9 w-auto object-contain drop-shadow-lg transform transition-transform duration-300 hover:scale-105">
-                        <div class="absolute inset-0 bg-white/20 rounded-full blur-xl -z-10"></div>
+    <!-- Decorative Background Elements -->
+    <div class="absolute inset-0 bg-pattern opacity-40"></div>
+    
+    <!-- Floating Orbs -->
+    <div class="absolute top-10 left-10 w-72 h-72 bg-[#B08968]/15 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-10 right-10 w-80 h-80 bg-[#8B6F4F]/15 rounded-full blur-3xl animate-float-delayed"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#B08968]/5 rounded-full blur-3xl animate-pulse-slow"></div>
+    
+    <div class="relative z-10 w-full max-w-sm">
+        <!-- Login Card -->
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+            
+            <!-- Header Section -->
+            <div class="relative bg-gradient-to-r from-[#B08968] to-[#8B6F4F] px-5 py-6 text-center">
+                <div class="relative z-10">
+                    <div class="flex justify-center mb-3">
+                        <div class="bg-white/20 backdrop-blur-sm rounded-xl p-2.5">
+                            <img src="{{ asset('images/logomebel.png') }}" 
+                                 alt="541 Furniture" 
+                                 class="h-10 w-auto object-contain brightness-0 invert">
+                        </div>
                     </div>
-                    <div class="w-px h-6 bg-gray-300"></div>
-                    <span class="text-xl font-bold text-[#B08968]">541 Furniture</span>
+                    <h2 class="text-white text-lg font-bold tracking-tight">Welcome Back</h2>
+                    <p class="text-white/80 text-xs mt-0.5">Login ke dashboard admin</p>
                 </div>
-                <p class="text-xs text-gray-500">Administrator Panel</p>
-                <div class="w-12 h-0.5 bg-[#B08968] mx-auto mt-2 rounded-full"></div>
             </div>
             
-            <h2 class="text-lg font-semibold text-center mb-4 text-gray-700">Selamat Datang Kembali</h2>
-            
-            @if(session('error'))
-                <div class="bg-red-50 border-l-4 border-red-500 text-red-700 px-3 py-2 rounded-lg mb-3 shadow-sm">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-xs">{{ session('error') }}</span>
+            <!-- Form Section -->
+            <div class="px-5 py-5">
+                
+                <!-- Error Messages -->
+                @if(session('error') || $errors->any())
+                <div class="mb-4 p-2.5 bg-red-50 border-l-4 border-red-500 rounded-lg">
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-circle-exclamation text-red-500 text-xs mt-0.5"></i>
+                        <div class="flex-1">
+                            @if(session('error'))
+                                <p class="text-[11px] text-red-600">{{ session('error') }}</p>
+                            @endif
+                            @foreach($errors->all() as $error)
+                                <p class="text-[11px] text-red-600">{{ $error }}</p>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            @endif
-            
-            @if($errors->any())
-                <div class="bg-red-50 border-l-4 border-red-500 text-red-700 px-3 py-2 rounded-lg mb-3 shadow-sm">
-                    @foreach($errors->all() as $error)
-                        <div class="flex items-center gap-2 text-xs">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span>{{ $error }}</span>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-            
-            <form method="POST" action="{{ route('admin.login.post') }}" class="space-y-3.5">
-                @csrf
+                @endif
                 
-                <!-- Email Field -->
-                <div class="space-y-1">
-                    <label for="email" class="block text-xs font-semibold text-gray-700 mb-0.5">Email Address</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-envelope text-[#B08968] text-sm"></i>
+                <form method="POST" action="{{ route('admin.login.post') }}" class="space-y-4">
+                    @csrf
+                    
+                    <!-- Email Field -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Email Address</label>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="email" 
+                                   name="email" 
+                                   value="{{ old('email') }}"
+                                   required 
+                                   class="input-field w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:border-[#B08968] transition-all duration-200 bg-gray-50 focus:bg-white"
+                                   placeholder="admin@541furniture.com">
                         </div>
-                        <input type="email" 
-                               id="email" 
-                               name="email" 
-                               value="{{ old('email') }}"
-                               required 
-                               class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-0 focus:border-[#B08968] transition-all duration-200 bg-gray-50 focus:bg-white"
-                               placeholder="admin@mebel.com">
                     </div>
-                </div>
-                
-                <!-- Password Field dengan Toggle -->
-                <div class="space-y-1">
-                    <label for="password" class="block text-xs font-semibold text-gray-700 mb-0.5">Password</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-lock text-[#B08968] text-sm"></i>
+                    
+                    <!-- Password Field -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Password</label>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="password" 
+                                   id="password"
+                                   name="password" 
+                                   required 
+                                   class="input-field w-full pl-9 pr-10 py-2 text-sm border border-gray-200 rounded-lg focus:border-[#B08968] transition-all duration-200 bg-gray-50 focus:bg-white"
+                                   placeholder="Masukkan password">
+                            <button type="button" 
+                                    id="togglePassword" 
+                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#B08968] transition-colors">
+                                <i id="eyeIcon" class="fas fa-eye-slash text-xs"></i>
+                            </button>
                         </div>
-                        <input type="password" 
-                               id="password" 
-                               name="password" 
-                               required 
-                               class="w-full pl-9 pr-10 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-0 focus:border-[#B08968] transition-all duration-200 bg-gray-50 focus:bg-white"
-                               placeholder="Masukkan password">
-                        <button type="button" 
-                                id="togglePassword" 
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-[#B08968] transition-colors duration-200">
-                            <i id="eyeIcon" class="fas fa-eye-slash text-sm"></i>
-                        </button>
                     </div>
-                </div>
+                    
+                    <!-- Remember Me (tanpa Lupa Password) -->
+                    <div class="flex items-center">
+                        <label class="flex items-center gap-1.5 cursor-pointer">
+                            <input type="checkbox" name="remember" id="remember" class="w-3 h-3 rounded border-gray-300 text-[#B08968] focus:ring-0">
+                            <span class="text-[11px] text-gray-600">Ingat saya</span>
+                        </label>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" 
+                            class="btn-shine w-full bg-gradient-to-r from-[#B08968] to-[#8B6F4F] text-white py-2 rounded-lg font-semibold text-sm shadow-md hover:shadow-lg transition-all duration-300">
+                        <span class="flex items-center justify-center gap-2">
+                            <i class="fas fa-arrow-right-to-bracket text-xs"></i>
+                            MASUK KE DASHBOARD
+                        </span>
+                    </button>
+                </form>
                 
-                <!-- Remember Me -->
-                <div class="flex items-center">
-                    <label class="flex items-center gap-1.5 cursor-pointer">
-                        <input type="checkbox" name="remember" class="w-3.5 h-3.5 text-[#B08968] rounded border-gray-300 focus:ring-0 focus:ring-offset-0 focus:border-[#B08968]">
-                        <span class="text-xs text-gray-600">Ingat saya</span>
-                    </label>
+                <!-- Back to Website -->
+                <div class="mt-4 text-center">
+                    <a href="{{ route('beranda') }}" 
+                       class="inline-flex items-center gap-1.5 text-[11px] text-gray-400 hover:text-[#B08968] transition-colors group">
+                        <i class="fas fa-arrow-left text-[10px] group-hover:-translate-x-0.5 transition-transform"></i>
+                        Kembali ke Website
+                    </a>
                 </div>
-                
-                <!-- Submit Button -->
-                <button type="submit" 
-                        class="w-full bg-[#B08968] text-white py-2 px-4 rounded-lg hover:bg-[#8B6F4F] focus:outline-none focus:ring-0 transition-all duration-300 font-semibold text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                    <span class="flex items-center justify-center gap-2">
-                        <i class="fas fa-sign-in-alt text-sm"></i>
-                        MASUK KE DASHBOARD
-                    </span>
-                </button>
-            </form>
-            
-            <!-- Back to Website Link -->
-            <div class="text-center mt-4 pt-3 border-t border-gray-100">
-                <a href="{{ route('beranda') }}" class="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#B08968] transition-colors duration-200">
-                    <i class="fas fa-arrow-left text-xs"></i>
-                    Kembali ke Website
-                </a>
             </div>
-        </div>
-        
-        <!-- Footer dengan Tagline Brand -->
-        <div class="text-center mt-4">
-            <p class="text-[10px] text-gray-400">Desain • Kualitas • Kenyamanan</p>
-            <p class="text-[10px] text-gray-400 mt-1">© 2026 541 FURNITURE - All Rights Reserved</p>
         </div>
     </div>
     
@@ -160,18 +205,20 @@
         const passwordInput = document.getElementById('password');
         const eyeIcon = document.getElementById('eyeIcon');
         
-        togglePassword.addEventListener('click', function() {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            
-            if (type === 'text') {
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
-            } else {
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            }
-        });
+        if (togglePassword) {
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                if (type === 'text') {
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                } else {
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                }
+            });
+        }
     </script>
 </body>
 </html>

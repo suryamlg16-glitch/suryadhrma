@@ -63,7 +63,7 @@
                     </div>
                     <div>
                         <p class="text-[10px] text-gray-500">Jumlah Dibayar</p>
-                        <p class="font-bold text-[#B08968] text-lg">Rp {{ number_format($transaksi->jumlah_dibayar, 0, ',', '.') }}</p>
+                        <p class="font-bold text-[#B08968] text-lg">Rp {{ number_format($transaksi->jumlah, 0, ',', '.') }}</p>
                     </div>
                     <div>
                         <p class="text-[10px] text-gray-500">Tanggal Pembayaran</p>
@@ -111,25 +111,6 @@
                 </a>
             </div>
         </div>
-    </div>
-    
-    <!-- Update Status -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-        <h3 class="font-semibold text-gray-800 text-sm mb-3">
-            <i class="fas fa-edit text-[#B08968] mr-2"></i> Update Status Transaksi
-        </h3>
-        <form action="{{ route('admin.transaksi.status', $transaksi->id_pembayaran) }}" method="POST" class="flex items-center gap-3">
-            @csrf
-            @method('PUT')
-            <select name="status" class="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B08968]">
-                <option value="pending" {{ $transaksi->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="sukses" {{ $transaksi->status == 'sukses' ? 'selected' : '' }}>Sukses</option>
-                <option value="gagal" {{ $transaksi->status == 'gagal' ? 'selected' : '' }}>Gagal</option>
-            </select>
-            <button type="submit" class="px-4 py-2 bg-[#B08968] text-white rounded-lg hover:bg-[#8B6F4F] transition text-sm">
-                Update Status
-            </button>
-        </form>
     </div>
     
     <!-- Bukti Pembayaran -->

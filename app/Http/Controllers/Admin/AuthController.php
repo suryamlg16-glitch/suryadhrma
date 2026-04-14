@@ -60,6 +60,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         
-        return redirect('/admin/login');
+        return redirect('/admin/login'); // ← Ganti dari '/login' ke '/admin/login'
     }
 }

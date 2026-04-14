@@ -65,8 +65,8 @@
             </div>
             
             <div class="p-4 space-y-4">
-                <!-- Produk -->
-                @foreach($pesanan->detailPesanan as $detail)
+                <!-- PERBAIKAN: ganti detailPesanan menjadi details -->
+                @foreach($pesanan->details as $detail)
                 <div class="flex gap-3">
                     <div class="w-14 h-14 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                         <img src="{{ asset('images/' . ($detail->produk->gambar_utama ?? 'imagemeja.jpeg')) }}" 
@@ -85,11 +85,11 @@
                 <div class="border-t border-gray-100 pt-3 space-y-1.5">
                     <div class="flex justify-between text-xs">
                         <span class="text-gray-500">Subtotal</span>
-                        <span class="text-gray-700">Rp {{ number_format($pesanan->detailPesanan->sum('subtotal'), 0, ',', '.') }}</span>
+                        <span class="text-gray-700">Rp {{ number_format($pesanan->details->sum('subtotal'), 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between text-xs">
                         <span class="text-gray-500">Ongkos Kirim</span>
-                        <span class="text-gray-700">Rp {{ number_format($pesanan->total_harga - $pesanan->detailPesanan->sum('subtotal'), 0, ',', '.') }}</span>
+                        <span class="text-gray-700">Rp {{ number_format($pesanan->total_harga - $pesanan->details->sum('subtotal'), 0, ',', '.') }}</span>
                     </div>
                     <div class="border-t border-gray-100 pt-2 mt-1">
                         <div class="flex justify-between">

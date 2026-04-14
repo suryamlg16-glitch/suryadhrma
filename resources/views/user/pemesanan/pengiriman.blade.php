@@ -170,7 +170,6 @@
                         <div class="border-t border-gray-100 pt-3">
                             <h3 class="font-medium text-xs text-gray-700 mb-2">Metode Pembayaran</h3>
                             <div class="flex flex-wrap gap-1.5">
-                                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">COD</span>
                                 <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">QRIS</span>
                                 <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">TRANSFER</span>
                             </div>

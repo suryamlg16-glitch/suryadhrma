@@ -68,9 +68,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // CRUD Produk (Admin)
     Route::resource('produk', ProdukController::class);
-
-    // CRUD Kategori (Admin)
-    Route::resource('kategori', KategoriController::class);
     
     // Route Pesanan (Admin)
     Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
@@ -80,7 +77,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Route Transaksi
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
     Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
-    Route::put('/transaksi/{id}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.status');
 });
 
 // ==================== ROUTE DASHBOARD & AUTH ====================

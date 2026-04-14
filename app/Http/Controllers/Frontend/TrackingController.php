@@ -41,7 +41,8 @@ class TrackingController extends Controller
      */
     public function show($invoice)
     {
-        $pesanan = Pesanan::with('detailPesanan.produk')
+        // PERBAIKAN: ganti detailPesanan menjadi details
+        $pesanan = Pesanan::with('details.produk')
                           ->where('kode_invoice', $invoice)
                           ->firstOrFail();
         
