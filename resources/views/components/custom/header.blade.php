@@ -19,39 +19,33 @@
                 </a>
             </div>
             
-            <!-- Desktop Menu dengan efek modern (background slide dari kiri) -->
-            <div class="hidden md:flex items-center space-x-0.5">
+            <!-- Desktop Menu dengan efek modern - POSISI TENGAH -->
+            <div class="hidden md:flex items-center space-x-0.5 absolute left-1/2 transform -translate-x-1/2">
                 <a href="{{ route('beranda') }}" 
-                   class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
+                class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
                     <span class="relative z-10">BERANDA</span>
                     <span class="absolute inset-0 bg-[#8B6F4F] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left {{ request()->routeIs('beranda') ? 'scale-x-100' : '' }}"></span>
                 </a>
                 
                 <a href="{{ route('katalog') }}" 
-                   class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
+                class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
                     <span class="relative z-10">KATALOG PRODUK</span>
                     <span class="absolute inset-0 bg-[#8B6F4F] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left {{ request()->routeIs('katalog') ? 'scale-x-100' : '' }}"></span>
                 </a>
                 
                 <a href="{{ route('profil') }}" 
-                   class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
+                class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
                     <span class="relative z-10">PROFIL PERUSAHAAN</span>
                     <span class="absolute inset-0 bg-[#8B6F4F] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left {{ request()->routeIs('profil') ? 'scale-x-100' : '' }}"></span>
                 </a>
                 
                 <a href="{{ route('kontak') }}" 
-                   class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
+                class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
                     <span class="relative z-10">HUBUNGI KAMI</span>
                     <span class="absolute inset-0 bg-[#8B6F4F] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left {{ request()->routeIs('kontak') ? 'scale-x-100' : '' }}"></span>
                 </a>
-                
-                <!-- Menu TRACKING -->
-                <a href="{{ route('tracking.index') }}" 
-                   class="relative text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group overflow-hidden">
-                    <span class="relative z-10">CEK PESANAN</span>
-                    <span class="absolute inset-0 bg-[#8B6F4F] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                </a>
             </div>
+            
             
             <!-- Social Media Icons - HANYA ICON (tanpa teks) -->
             <div class="hidden md:flex items-center space-x-2">
@@ -107,9 +101,6 @@
             <a href="{{ route('katalog') }}" class="block px-3 py-2 text-white hover:bg-[#B08968] rounded-md transition-all duration-300 transform hover:translate-x-2 text-sm">KATALOG PRODUK</a>
             <a href="{{ route('profil') }}" class="block px-3 py-2 text-white hover:bg-[#B08968] rounded-md transition-all duration-300 transform hover:translate-x-2 text-sm">PROFIL PERUSAHAAN</a>
             <a href="{{ route('kontak') }}" class="block px-3 py-2 text-white hover:bg-[#B08968] rounded-md transition-all duration-300 transform hover:translate-x-2 text-sm">HUBUNGI KAMI</a>
-            
-            <!-- Menu TRACKING di Mobile -->
-            <a href="{{ route('tracking.index') }}" class="block px-3 py-2 text-white hover:bg-[#B08968] rounded-md transition-all duration-300 transform hover:translate-x-2 text-sm">TRACKING</a>
             
             <!-- Social Media Links di Mobile Menu - HANYA ICON -->
             <div class="pt-3 pb-2 border-t border-white/20 mt-3">

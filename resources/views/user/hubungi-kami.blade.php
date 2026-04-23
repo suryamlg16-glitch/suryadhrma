@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- HERO SECTION -->
-    <div class="bg-gradient-to-b from-gray-50 to-white py-10">
+    <div class="bg-gradient-to-b from-gray-50 to-white py-10 reveal" data-delay="0">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                 Hubungi <span class="text-[#B08968]">Kami</span>
@@ -21,7 +21,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 <!-- Email Card -->
-                <div class="bg-gray-50 rounded-xl p-5 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1 group border border-gray-100">
+                <div class="bg-gray-50 rounded-xl p-5 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1 group border border-gray-100 reveal" data-delay="0.1">
                     <div class="w-12 h-12 bg-[#B08968]/10 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#B08968] transition-colors duration-300">
                         <svg class="w-5 h-5 text-[#B08968] group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -34,7 +34,7 @@
                 </div>
 
                 <!-- Telepon Card -->
-                <div class="bg-gray-50 rounded-xl p-5 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1 group border border-gray-100">
+                <div class="bg-gray-50 rounded-xl p-5 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1 group border border-gray-100 reveal" data-delay="0.2">
                     <div class="w-12 h-12 bg-[#B08968]/10 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#B08968] transition-colors duration-300">
                         <svg class="w-5 h-5 text-[#B08968] group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
@@ -47,7 +47,7 @@
                 </div>
 
                 <!-- Instagram Card -->
-                <div class="bg-gray-50 rounded-xl p-5 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1 group border border-gray-100">
+                <div class="bg-gray-50 rounded-xl p-5 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1 group border border-gray-100 reveal" data-delay="0.3">
                     <div class="w-12 h-12 bg-[#B08968]/10 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#B08968] transition-colors duration-300">
                         <svg class="w-5 h-5 text-[#B08968] group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"/>
@@ -62,7 +62,7 @@
                 </div>
 
                 <!-- Alamat Card -->
-                <div class="bg-gray-50 rounded-xl p-5 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1 group border border-gray-100">
+                <div class="bg-gray-50 rounded-xl p-5 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1 group border border-gray-100 reveal" data-delay="0.4">
                     <div class="w-12 h-12 bg-[#B08968]/10 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#B08968] transition-colors duration-300">
                         <svg class="w-5 h-5 text-[#B08968] group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -78,10 +78,10 @@
         </div>
     </div>
 
-        <!-- GOOGLE MAPS -->
+    <!-- GOOGLE MAPS -->
     <div class="bg-gray-50 py-12">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-6">
+            <div class="text-center mb-6 reveal" data-delay="0">
                 <h2 class="text-xl md:text-2xl font-bold text-gray-900">
                     Temukan <span class="text-[#B08968]">Kami</span>
                 </h2>
@@ -89,7 +89,7 @@
                 <p class="text-gray-500 text-xs mt-3">Kunjungi workshop kami di Kota Malang</p>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 reveal" data-delay="0.1">
                 <div class="h-80 md:h-96 w-full relative">
                     <!-- Loading placeholder -->
                     <div class="absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center">
@@ -142,3 +142,46 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Reveal animation on scroll
+    (function() {
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                const revealPoint = 150;
+                
+                if (revealTop < windowHeight - revealPoint) {
+                    const delay = el.getAttribute('data-delay') || 0;
+                    setTimeout(() => {
+                        el.classList.add('active');
+                    }, delay * 1000);
+                }
+            });
+        };
+        
+        // Add CSS for reveal animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.6s ease-out;
+            }
+            .reveal.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+        revealOnScroll();
+    })();
+</script>
+@endpush

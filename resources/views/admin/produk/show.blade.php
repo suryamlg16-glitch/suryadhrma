@@ -29,9 +29,6 @@
                 </div>
                 <div>
                     <h1 class="text-base font-semibold text-gray-800">{{ $produk->nama_produk }}</h1>
-                    <span class="inline-block mt-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#B08968]/10 text-[#9a7455]">
-                        {{ $produk->kategori->nama_kategori ?? 'Umum' }}
-                    </span>
                 </div>
             </div>
 
@@ -61,33 +58,12 @@
 
             {{-- Left: Key Info --}}
             <div class="space-y-5">
-
                 <div>
-                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1">Harga</p>
+                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1">Harga (Estimasi /meter)</p>
                     <p class="text-2xl font-semibold text-[#B08968]">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
                 </div>
 
                 <div class="h-px bg-gray-100"></div>
-
-                <div>
-                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1">Stok</p>
-                    @if($produk->stok <= 5)
-                        <div class="flex items-center gap-2">
-                            <p class="text-sm font-semibold text-red-500">{{ $produk->stok }} unit</p>
-                            <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-red-50 text-red-500">Stok menipis</span>
-                        </div>
-                    @else
-                        <p class="text-sm font-semibold text-gray-800">{{ $produk->stok }} unit</p>
-                    @endif
-                </div>
-
-                <div class="h-px bg-gray-100"></div>
-
-                <div>
-                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1">Kategori</p>
-                    <p class="text-sm text-gray-700">{{ $produk->kategori->nama_kategori ?? 'Umum' }}</p>
-                </div>
-
             </div>
 
             {{-- Right: Deskripsi --}}

@@ -34,23 +34,10 @@
             <p class="text-gray-500 text-sm mt-3">Terima kasih telah berbelanja di 541 Furniture</p>
         </div>
         
-        <!-- Informasi Nomor Pesanan -->
-        <div class="bg-gray-50 rounded-xl p-4 mb-6 text-center border border-gray-100">
-            <p class="text-xs text-gray-500 mb-1">📋 Nomor Pesanan Anda</p>
-            <p class="text-lg md:text-xl font-bold text-[#B08968] tracking-wider">{{ $invoice }}</p>
-            <p class="text-[11px] text-gray-400 mt-2">
-                Simpan nomor pesanan ini untuk cek status melalui menu <span class="font-medium text-[#B08968]">"CEK PESANAN"</span>
-            </p>
-        </div>
-        
         <!-- Kartu Informasi Pesanan -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 mb-6">
-            <!-- Header Kartu -->
             <div class="bg-gray-50 px-5 py-3 border-b border-gray-100">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-sm font-semibold text-gray-800">Detail Pesanan</h2>
-                    <span class="text-xs text-[#B08968] font-medium bg-[#B08968]/10 px-2 py-0.5 rounded-full">{{ $invoice }}</span>
-                </div>
+                <h2 class="text-sm font-semibold text-gray-800">Detail Pesanan</h2>
             </div>
             
             <div class="p-5 space-y-4">
@@ -64,30 +51,26 @@
                 <div class="flex gap-3">
                     <div class="w-14 h-14 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                         <img src="{{ asset('images/' . ($produk->gambar_utama ?? 'imagemeja.jpeg')) }}" 
-                             alt="{{ $produk->nama_produk }}"
-                             class="w-full h-full object-cover">
+                            alt="{{ $produk->nama_produk }}"
+                            class="w-full h-full object-cover">
                     </div>
                     <div class="flex-1">
                         <h3 class="font-semibold text-sm text-gray-800">{{ $produk->nama_produk }}</h3>
                         <p class="text-xs text-gray-500 mt-0.5">Jumlah: 1 Unit</p>
-                        <p class="text-sm font-semibold text-[#B08968] mt-1">Rp {{ number_format($subtotal, 0, ',', '.') }}</p>
+                        <p class="text-xs text-gray-500 mt-1">Harga akan ditentukan setelah survey & pengukuran</p>
                     </div>
                 </div>
-                
-                <!-- Detail Harga -->
+
+                <!-- Informasi Harga (Estimasi) -->
                 <div class="bg-gray-50 rounded-lg p-3 space-y-2">
                     <div class="flex justify-between text-xs">
-                        <span class="text-gray-500">Subtotal</span>
-                        <span class="text-gray-700">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
-                    </div>
-                    <div class="flex justify-between text-xs">
-                        <span class="text-gray-500">Ongkos Kirim ({{ $kurir }})</span>
-                        <span class="text-gray-700">Rp {{ number_format($ongkir, 0, ',', '.') }}</span>
+                        <span class="text-gray-500">Status Harga</span>
+                        <span class="text-amber-600 font-medium">Menunggu Deal</span>
                     </div>
                     <div class="border-t border-gray-200 pt-2 mt-1">
                         <div class="flex justify-between">
-                            <span class="font-semibold text-sm text-gray-800">Total Pembayaran</span>
-                            <span class="text-base font-bold text-[#B08968]">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                            <span class="font-semibold text-sm text-gray-800">Informasi</span>
+                            <span class="text-xs text-gray-500">Harga final akan diinformasikan admin setelah survey</span>
                         </div>
                     </div>
                 </div>
@@ -99,12 +82,6 @@
                     <p class="text-xs text-gray-500 mt-0.5">{{ $alamat['alamat_lengkap'] }}</p>
                     <p class="text-xs text-gray-500">{{ $alamat['kecamatan'] }}, {{ $alamat['kota'] }}</p>
                     <p class="text-xs text-gray-500 mt-1">📞 {{ $alamat['no_wa'] }}</p>
-                </div>
-                
-                <!-- Metode Pembayaran -->
-                <div class="flex justify-between items-center text-xs pt-1">
-                    <span class="text-gray-500">Metode Pembayaran</span>
-                    <span class="font-medium text-gray-700 bg-gray-100 px-2 py-0.5 rounded uppercase text-[10px]">{{ $metode_pembayaran }}</span>
                 </div>
             </div>
         </div>

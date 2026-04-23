@@ -21,7 +21,6 @@
                     <li><a href="{{ route('katalog') }}" class="text-white/70 hover:text-white text-xs transition">KATALOG PRODUK</a></li>
                     <li><a href="{{ route('profil') }}" class="text-white/70 hover:text-white text-xs transition">PROFIL PERUSAHAAN</a></li>
                     <li><a href="{{ route('kontak') }}" class="text-white/70 hover:text-white text-xs transition">HUBUNGI KAMI</a></li>
-                    <li><a href="{{ route('tracking.index') }}" class="text-white/70 hover:text-white text-xs transition">CEK PESANAN</a></li>
                 </ul>
             </div>
 

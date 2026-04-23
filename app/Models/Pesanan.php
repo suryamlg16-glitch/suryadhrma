@@ -29,8 +29,9 @@ class Pesanan extends Model
         'status_pesanan',
         'subtotal', 
         'total_harga', 
+        'harga_final',
+        'status_deal',
         'catatan', 
-        'kurir',
         'tanggal_pesanan',
         'tanggal_transfer',
         'tanggal_konfirmasi',
@@ -75,5 +76,17 @@ class Pesanan extends Model
         ];
         
         return $badges[$this->status_pesanan] ?? '<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">' . ucfirst($this->status_pesanan) . '</span>';
+    }
+    
+    // Helper untuk badge status deal
+    public function getStatusDealBadgeAttribute()
+    {
+        $badges = [
+            'menunggu' => '<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Menunggu Deal</span>',
+            'deal' => '<span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Sudah Deal</span>',
+            'batal' => '<span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">Batal</span>',
+        ];
+        
+        return $badges[$this->status_deal] ?? '<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">' . ucfirst($this->status_deal) . '</span>';
     }
 }

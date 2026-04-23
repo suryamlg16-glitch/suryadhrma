@@ -2,7 +2,7 @@
 
 @section('title', 'Detail Transaksi')
 @section('header', 'Detail Transaksi')
-@section('subheader', 'Informasi lengkap transaksi pembayaran')
+@section('subheader', 'Detail transaksi dari pesanan yang sudah deal')
 
 @section('content')
 <div class="space-y-4">
@@ -19,11 +19,11 @@
                     <div>
                         @if($transaksi->status == 'sukses')
                             <span class="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs">
-                                <i class="fas fa-check-circle"></i> Sukses
+                                <i class="fas fa-check-circle"></i> Lunas
                             </span>
                         @elseif($transaksi->status == 'pending')
                             <span class="inline-flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-xs">
-                                <i class="fas fa-clock"></i> Pending
+                                <i class="fas fa-clock"></i> Menunggu Pembayaran
                             </span>
                         @else
                             <span class="inline-flex items-center gap-1 px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs">
@@ -59,23 +59,38 @@
                     </div>
                     <div>
                         <p class="text-[10px] text-gray-500">Metode Pembayaran</p>
-                        <p class="font-medium text-gray-800 text-sm uppercase">{{ $transaksi->metode_pembayaran }}</p>
+                        <p class="font-medium text-gray-800 text-sm">Transfer Bank</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500">Total Harga Deal</p>
+                        <p class="font-bold text-[#B08968] text-lg">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
                     </div>
                     <div>
                         <p class="text-[10px] text-gray-500">Jumlah Dibayar</p>
-                        <p class="font-bold text-[#B08968] text-lg">Rp {{ number_format($transaksi->jumlah, 0, ',', '.') }}</p>
+                        <p class="font-medium text-green-600 text-lg">Rp {{ number_format($transaksi->jumlah_dibayar, 0, ',', '.') }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500">Sisa Tagihan</p>
+                        <p class="font-medium text-red-600 text-lg">Rp {{ number_format($transaksi->sisa_tagihan, 0, ',', '.') }}</p>
                     </div>
                     <div>
                         <p class="text-[10px] text-gray-500">Tanggal Pembayaran</p>
                         <p class="font-medium text-gray-800 text-sm">{{ $transaksi->tanggal_pembayaran ? $transaksi->tanggal_pembayaran->format('d/m/Y H:i') : '-' }}</p>
                     </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500">Termin</p>
+                        <p class="font-medium text-gray-800 text-sm">
+                            @if($transaksi->termin == 'dp') 💰 DP 30%
+                            @elseif($transaksi->termin == 'termin2') 🔧 Termin 30%
+                            @else ✅ Pelunasan 40%
+                            @endif
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500">Persentase</p>
+                        <p class="font-medium text-gray-800 text-sm">{{ $transaksi->persentase ?? 0 }}%</p>
+                    </div>
                 </div>
-                @if($transaksi->catatan)
-                <div>
-                    <p class="text-[10px] text-gray-500">Catatan</p>
-                    <p class="text-sm text-gray-600 bg-gray-50 p-2 rounded-lg">{{ $transaksi->catatan }}</p>
-                </div>
-                @endif
             </div>
         </div>
         
@@ -94,15 +109,21 @@
                     </div>
                     <div>
                         <p class="text-[10px] text-gray-500">Status Pesanan</p>
-                        <p class="font-medium text-gray-800 text-sm">{{ ucfirst($transaksi->pesanan->status_pesanan ?? '-') }}</p>
+                        <p class="font-medium text-gray-800 text-sm">
+                            @if($transaksi->pesanan->status_pesanan == 'diproses') 🔧 Dalam Produksi
+                            @elseif($transaksi->pesanan->status_pesanan == 'dikirim') 🚚 Dikirim
+                            @elseif($transaksi->pesanan->status_pesanan == 'selesai') ✅ Selesai
+                            @else {{ ucfirst($transaksi->pesanan->status_pesanan ?? '-') }}
+                            @endif
+                        </p>
                     </div>
                     <div>
                         <p class="text-[10px] text-gray-500">Pelanggan</p>
                         <p class="font-medium text-gray-800 text-sm">{{ $transaksi->pesanan->nama_pelanggan ?? '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-[10px] text-gray-500">Total Pesanan</p>
-                        <p class="font-medium text-gray-800 text-sm">Rp {{ number_format($transaksi->pesanan->total_harga ?? 0, 0, ',', '.') }}</p>
+                        <p class="text-[10px] text-gray-500">Harga Deal</p>
+                        <p class="font-medium text-gray-800 text-sm">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
                     </div>
                 </div>
                 <a href="{{ route('admin.pesanan.show', $transaksi->id_pesanan) }}" 
@@ -114,17 +135,43 @@
     </div>
     
     <!-- Bukti Pembayaran -->
-    @if($transaksi->bukti_pembayaran && file_exists(public_path('storage/' . $transaksi->bukti_pembayaran)))
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
         <h3 class="font-semibold text-gray-800 text-sm mb-3">
             <i class="fas fa-image text-[#B08968] mr-2"></i> Bukti Pembayaran
         </h3>
-        <div class="flex justify-center">
-            <img src="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}" 
-                 alt="Bukti Pembayaran"
-                 class="max-w-md rounded-lg shadow-sm border">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            @if($transaksi->bukti_dp)
+            <div>
+                <p class="text-[10px] text-gray-500 mb-1">💰 Bukti DP 30%</p>
+                <img src="{{ asset('storage/' . $transaksi->bukti_dp) }}" 
+                     alt="Bukti DP"
+                     class="w-full max-w-[200px] rounded-lg shadow-sm border">
+            </div>
+            @endif
+            
+            @if($transaksi->bukti_termin2)
+            <div>
+                <p class="text-[10px] text-gray-500 mb-1">🔧 Bukti Termin 2 (30%)</p>
+                <img src="{{ asset('storage/' . $transaksi->bukti_termin2) }}" 
+                     alt="Bukti Termin 2"
+                     class="w-full max-w-[200px] rounded-lg shadow-sm border">
+            </div>
+            @endif
+            
+            @if($transaksi->bukti_pelunasan)
+            <div>
+                <p class="text-[10px] text-gray-500 mb-1">✅ Bukti Pelunasan 40%</p>
+                <img src="{{ asset('storage/' . $transaksi->bukti_pelunasan) }}" 
+                     alt="Bukti Pelunasan"
+                     class="w-full max-w-[200px] rounded-lg shadow-sm border">
+            </div>
+            @endif
         </div>
+        
+        @if(!$transaksi->bukti_dp && !$transaksi->bukti_termin2 && !$transaksi->bukti_pelunasan)
+        <p class="text-sm text-gray-400 text-center py-4">Belum ada bukti pembayaran</p>
+        @endif
     </div>
-    @endif
 </div>
 @endsection

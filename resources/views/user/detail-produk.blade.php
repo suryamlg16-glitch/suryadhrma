@@ -20,7 +20,7 @@
 <div class="bg-white py-6 md:py-8">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-8">
-            <!-- Gambar Produk - DIPERKECIL LAGI -->
+            <!-- Gambar Produk -->
             <div class="flex justify-center">
                 <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm max-w-md w-full">
                     <img src="{{ asset('images/' . ($produk->gambar_utama ?? 'imagemeja.jpeg')) }}" 
@@ -29,7 +29,7 @@
                 </div>
             </div>
             
-            <!-- Info Produk - TEKS DIPERKECIL -->
+            <!-- Info Produk -->
             <div class="space-y-3">
                 <!-- Kategori -->
                 <span class="inline-block px-2.5 py-0.5 bg-[#B08968]/10 text-[#B08968] text-[11px] font-medium rounded-full">
@@ -41,12 +41,18 @@
                     {{ $produk->nama_produk ?? 'Nama Produk' }}
                 </h1>
                 
-                <!-- Harga (sebagai estimasi) -->
+                <!-- Harga (Estimasi - BUKAN HARGA FINAL) -->
                 <div class="flex items-baseline gap-1.5">
                     <p class="text-2xl md:text-3xl font-bold text-[#B08968]">
                         Rp {{ number_format($produk->harga ?? 0, 0, ',', '.') }}
                     </p>
-                    <p class="text-gray-400 text-[11px]">/meter lari (estimasi)</p>
+                    <p class="text-gray-400 text-[11px]">/meter lari</p>
+                </div>
+                <div class="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-1 w-fit">
+                    <svg class="w-3 h-3 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-[10px] text-amber-700 font-medium">Harga estimasi, bukan harga final</p>
                 </div>
                 
                 <!-- Badge Info Custom -->
@@ -57,7 +63,7 @@
                         </svg>
                         <div>
                             <p class="text-[11px] text-blue-800 font-medium">Furniture Custom Sesuai Ukuran</p>
-                            <p class="text-[10px] text-blue-600 mt-0.5">Harga dapat berubah sesuai ukuran, bahan, dan tingkat kerumitan. Tim kami akan survey dan mengukur langsung di lokasi.</p>
+                            <p class="text-[10px] text-blue-600 mt-0.5">Harga final akan ditentukan setelah survey & pengukuran lokasi. Tim kami akan memberikan penawaran harga terbaik sesuai kebutuhan Anda.</p>
                         </div>
                     </div>
                 </div>
@@ -114,7 +120,7 @@
                     </div>
                 </div>
                 
-                <!-- TOMBOL - 2 BUTTON (DIPERKECIL) -->
+                <!-- TOMBOL - 2 BUTTON -->
                 <div class="pt-2 space-y-2.5">
                     <!-- Tombol 1: Buat Pesanan -->
                     <a href="{{ route('pesan.index', ['slug' => $produk->slug]) }}"
@@ -146,7 +152,7 @@
     </div>
 </div>
 
-<!-- PROSES PEMESANAN - TIDAK DIRUBAH -->
+<!-- PROSES PEMESANAN -->
 <div class="bg-white py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-6 reveal" data-delay="0">

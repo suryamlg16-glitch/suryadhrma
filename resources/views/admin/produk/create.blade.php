@@ -13,91 +13,45 @@
 
             <div class="p-5 space-y-5">
 
-                {{-- Nama Produk & Kategori --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1.5">
-                            Nama Produk <span class="text-red-400">*</span>
-                        </label>
-                        <input type="text"
-                               name="nama_produk"
-                               value="{{ old('nama_produk') }}"
-                               required
-                               placeholder="Contoh: Sofa Minimalis Oslo"
-                               class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50
-                                      focus:outline-none focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968]
-                                      placeholder-gray-300 transition-all duration-200">
-                        @error('nama_produk')
-                            <p class="text-red-400 text-[10px] mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1.5">
-                            Kategori <span class="text-red-400">*</span>
-                        </label>
-                        <select name="kategori_id"
-                                required
-                                class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50
-                                       focus:outline-none focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968]
-                                       text-gray-700 transition-all duration-200">
-                            <option value="">Pilih kategori...</option>
-                            @foreach($kategori as $kat)
-                                <option value="{{ $kat->id_kategori }}"
-                                    {{ old('kategori_id') == $kat->id_kategori ? 'selected' : '' }}>
-                                    {{ $kat->nama_kategori }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('kategori_id')
-                            <p class="text-red-400 text-[10px] mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                {{-- Nama Produk --}}
+                <div>
+                    <label class="block text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1.5">
+                        Nama Produk <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text"
+                           name="nama_produk"
+                           value="{{ old('nama_produk') }}"
+                           required
+                           placeholder="Contoh: Sofa Minimalis Oslo"
+                           class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50
+                                  focus:outline-none focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968]
+                                  placeholder-gray-300 transition-all duration-200">
+                    @error('nama_produk')
+                        <p class="text-red-400 text-[10px] mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="h-px bg-gray-100"></div>
 
-                {{-- Harga & Stok --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1.5">
-                            Harga (Rp) <span class="text-red-400">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 pointer-events-none">Rp</span>
-                            <input type="number"
-                                   name="harga"
-                                   value="{{ old('harga') }}"
-                                   required
-                                   placeholder="0"
-                                   class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50
-                                          focus:outline-none focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968]
-                                          placeholder-gray-300 transition-all duration-200">
-                        </div>
-                        @error('harga')
-                            <p class="text-red-400 text-[10px] mt-1">{{ $message }}</p>
-                        @enderror
+                {{-- Harga --}}
+                <div>
+                    <label class="block text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1.5">
+                        Harga (Estimasi /meter) <span class="text-red-400">*</span>
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 pointer-events-none">Rp</span>
+                        <input type="number"
+                               name="harga"
+                               value="{{ old('harga') }}"
+                               required
+                               placeholder="0"
+                               class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50
+                                      focus:outline-none focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968]
+                                      placeholder-gray-300 transition-all duration-200">
                     </div>
-
-                    <div>
-                        <label class="block text-[10px] font-medium text-gray-400 uppercase tracking-widest mb-1.5">
-                            Stok <span class="text-red-400">*</span>
-                        </label>
-                        <div class="relative">
-                            <input type="number"
-                                   name="stok"
-                                   value="{{ old('stok') }}"
-                                   required
-                                   placeholder="0"
-                                   class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50
-                                          focus:outline-none focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968]
-                                          placeholder-gray-300 transition-all duration-200">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">unit</span>
-                        </div>
-                        @error('stok')
-                            <p class="text-red-400 text-[10px] mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    @error('harga')
+                        <p class="text-red-400 text-[10px] mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="h-px bg-gray-100"></div>

@@ -8,8 +8,9 @@
 <div class="space-y-4">
 
     {{-- Stat Cards --}}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
+        <!-- Total Produk -->
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex justify-between items-center
                     relative overflow-hidden group cursor-default transition-transform duration-200 hover:-translate-y-0.5">
             <div>
@@ -25,21 +26,7 @@
             <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-[#B08968] transition-all duration-500 group-hover:w-full"></div>
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex justify-between items-center
-                    relative overflow-hidden group cursor-default transition-transform duration-200 hover:-translate-y-0.5">
-            <div>
-                <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Total Kategori</p>
-                <p class="text-2xl font-semibold text-blue-600">{{ $totalKategori ?? 0 }}</p>
-            </div>
-            <div class="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center">
-                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                </svg>
-            </div>
-            <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-[#B08968] transition-all duration-500 group-hover:w-full"></div>
-        </div>
-
+        <!-- Total Pesanan -->
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex justify-between items-center
                     relative overflow-hidden group cursor-default transition-transform duration-200 hover:-translate-y-0.5">
             <div>
@@ -92,7 +79,6 @@
                         <th class="px-4 py-3 text-left text-[10px] font-medium text-gray-400 uppercase tracking-wider w-10">No</th>
                         <th class="px-4 py-3 text-left text-[10px] font-medium text-gray-400 uppercase tracking-wider w-14">Gambar</th>
                         <th class="px-4 py-3 text-left text-[10px] font-medium text-gray-400 uppercase tracking-wider">Nama Produk</th>
-
                         <th class="px-4 py-3 text-left text-[10px] font-medium text-gray-400 uppercase tracking-wider w-32">Harga</th>
                         <th class="px-4 py-3 text-left text-[10px] font-medium text-gray-400 uppercase tracking-wider w-20">Aksi</th>
                     </tr>
@@ -124,7 +110,7 @@
                             <p class="text-sm font-medium text-gray-800">{{ $item->nama_produk }}</p>
                         </td>
 
-<td class="px-4 py-3">
+                        <td class="px-4 py-3">
                             <span class="text-sm font-semibold text-[#B08968]">
                                 Rp {{ number_format($item->harga, 0, ',', '.') }}
                             </span>
@@ -196,14 +182,9 @@ document.getElementById('searchInput')?.addEventListener('keyup', function () {
     _st = setTimeout(() => submitFilterForm(), 500);
 });
 
-document.getElementById('kategoriFilter')?.addEventListener('change', submitFilterForm);
-document.getElementById('sortFilter')?.addEventListener('change', submitFilterForm);
-
 function submitFilterForm() {
     const url = new URL(window.location.href);
-    url.searchParams.set('search',   document.getElementById('searchInput')?.value   || '');
-    url.searchParams.set('kategori', document.getElementById('kategoriFilter')?.value || '');
-    url.searchParams.set('sort',     document.getElementById('sortFilter')?.value     || 'terbaru');
+    url.searchParams.set('search', document.getElementById('searchInput')?.value || '');
     url.searchParams.set('page', '1');
     window.location.href = url.toString();
 }

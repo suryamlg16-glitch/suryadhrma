@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- HEADER KATALOG -->
-    <div class="bg-gradient-to-b from-gray-50 to-white py-8">
+    <div class="bg-gradient-to-b from-gray-50 to-white py-8 reveal" data-delay="0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 Katalog <span class="text-[#B08968]">Produk</span>
@@ -18,7 +18,7 @@
     </div>
 
     <!-- SEARCH SECTION - REAL TIME -->
-    <div class="bg-white border-y border-gray-100 py-4">
+    <div class="bg-white border-y border-gray-100 py-4 reveal" data-delay="0.1">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-start">
                 <div class="w-full md:w-72">
@@ -39,8 +39,8 @@
     <div class="bg-gray-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="product-grid">
-                @forelse($produk as $item)
-                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 product-card" data-product="{{ $item->nama_produk }}">
+                @forelse($produk as $index => $item)
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 product-card reveal" data-product="{{ $item->nama_produk }}" data-delay="{{ 0.1 + ($index * 0.02) }}">
                     <div class="relative pb-[100%] overflow-hidden bg-gray-100">
                         <img src="{{ asset('images/' . $item->gambar_utama) }}" 
                              alt="{{ $item->nama_produk }}" 
@@ -125,14 +125,59 @@
     </script>
 
     <!-- PAGINATION - LARAVEL -->
-    <div class="bg-gray-50 pb-8">
+    <div class="bg-gray-50 pb-8 reveal" data-delay="0.2">
         <div class="flex justify-center">
             {{ $produk->links() }}
         </div>
     </div>
 
+    <!-- PROSES PEMESANAN -->
+    <div id="cara-memesan" class="bg-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-6 reveal" data-delay="0">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                    Bagaimana <span class="text-[#B08968]">Cara Memesan?</span>
+                </h2>
+                <p class="text-sm text-gray-600">Proses mudah untuk mewujudkan furniture impian Anda</p>
+            </div>
+
+            <div class="relative">
+                <!-- Connector line -->
+                <div class="hidden md:block absolute z-0"
+                     style="top: calc(20px + 24px); transform: translateY(-50%); left: calc(25% / 2 + 24px); right: calc(25% / 2 + 24px); height: 1px; background: repeating-linear-gradient(to right, #B08968 0, #B08968 6px, transparent 6px, transparent 12px); opacity: 0.4;">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative z-10">
+                    <div class="reveal text-center px-3 py-5 rounded-2xl border border-transparent transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2 hover:bg-[#fdf8f4] hover:border-[#e8d5c0] hover:shadow-[0_8px_24px_rgba(176,137,104,0.12)] group" data-delay="0.1">
+                        <div class="w-12 h-12 bg-[#B08968] text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-3 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:shadow-[0_6px_18px_rgba(176,137,104,0.4)]">1</div>
+                        <h3 class="font-semibold text-gray-900 text-sm mb-1 transition-colors duration-200 group-hover:text-[#B08968]">Konsultasi</h3>
+                        <p class="text-xs text-gray-500">Diskusikan kebutuhan furniture Anda dengan tim ahli kami</p>
+                    </div>
+
+                    <div class="reveal text-center px-3 py-5 rounded-2xl border border-transparent transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2 hover:bg-[#fdf8f4] hover:border-[#e8d5c0] hover:shadow-[0_8px_24px_rgba(176,137,104,0.12)] group" data-delay="0.2">
+                        <div class="w-12 h-12 bg-[#B08968] text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-3 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:shadow-[0_6px_18px_rgba(176,137,104,0.4)]">2</div>
+                        <h3 class="font-semibold text-gray-900 text-sm mb-1 transition-colors duration-200 group-hover:text-[#B08968]">Survey & Ukur</h3>
+                        <p class="text-xs text-gray-500">Tim kami akan survey dan mengukur lokasi pemasangan</p>
+                    </div>
+
+                    <div class="reveal text-center px-3 py-5 rounded-2xl border border-transparent transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2 hover:bg-[#fdf8f4] hover:border-[#e8d5c0] hover:shadow-[0_8px_24px_rgba(176,137,104,0.12)] group" data-delay="0.3">
+                        <div class="w-12 h-12 bg-[#B08968] text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-3 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:shadow-[0_6px_18px_rgba(176,137,104,0.4)]">3</div>
+                        <h3 class="font-semibold text-gray-900 text-sm mb-1 transition-colors duration-200 group-hover:text-[#B08968]">Produksi</h3>
+                        <p class="text-xs text-gray-500">Pembuatan furniture sesuai ukuran dan desain yang disepakati</p>
+                    </div>
+
+                    <div class="reveal text-center px-3 py-5 rounded-2xl border border-transparent transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2 hover:bg-[#fdf8f4] hover:border-[#e8d5c0] hover:shadow-[0_8px_24px_rgba(176,137,104,0.12)] group" data-delay="0.4">
+                        <div class="w-12 h-12 bg-[#B08968] text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-3 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:shadow-[0_6px_18px_rgba(176,137,104,0.4)]">4</div>
+                        <h3 class="font-semibold text-gray-900 text-sm mb-1 transition-colors duration-200 group-hover:text-[#B08968]">Pasang</h3>
+                        <p class="text-xs text-gray-500">Pengiriman dan pemasangan oleh tim profesional</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- CTA SECTION -->
-    <div class="bg-[#8B6F4F] py-6">
+    <div class="bg-[#8B6F4F] py-6 reveal" data-delay="0">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="text-center sm:text-left">
@@ -150,3 +195,46 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Reveal animation on scroll
+    (function() {
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                const revealPoint = 150;
+                
+                if (revealTop < windowHeight - revealPoint) {
+                    const delay = el.getAttribute('data-delay') || 0;
+                    setTimeout(() => {
+                        el.classList.add('active');
+                    }, delay * 1000);
+                }
+            });
+        };
+        
+        // Add CSS for reveal animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.6s ease-out;
+            }
+            .reveal.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+        revealOnScroll();
+    })();
+</script>
+@endpush

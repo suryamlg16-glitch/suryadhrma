@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\Admin\TransaksiController;
+use App\Http\Controllers\Admin\LaporanController; // ✅ TAMBAHKAN USE STATEMENT
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,24 +37,12 @@ Route::get('/hubungi-kami', function () {
     return view('user.hubungi-kami');
 })->name('kontak');
 
-// Route Pemesanan
+// Route Pemesanan (Hanya Alamat -> Langsung Selesai)
 Route::get('/pesan/produk/{slug}', [PemesananController::class, 'index'])->name('pesan.index');
 Route::post('/pesan/store-alamat', [PemesananController::class, 'storeAlamat'])->name('pesan.store.alamat');
-Route::get('/pesan/pengiriman', [PemesananController::class, 'pengiriman'])->name('pesan.pengiriman');
-Route::post('/pesan/store-pengiriman', [PemesananController::class, 'storePengiriman'])->name('pesan.store.pengiriman');
-Route::get('/pesan/pembayaran', [PemesananController::class, 'pembayaran'])->name('pesan.pembayaran');
-Route::post('/pesan/store-pembayaran', [PemesananController::class, 'storePembayaran'])->name('pesan.store.pembayaran');
-
-// Route konfirmasi pembayaran
-Route::post('/pesan/store-pembayaran', [PemesananController::class, 'storePembayaran'])->name('pesan.store.pembayaran');
 
 // Route pesanan sukses
 Route::get('/pesanan/sukses', [PemesananController::class, 'sukses'])->name('pesanan.sukses');
-
-// Route Tracking
-Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking.index');
-Route::post('/tracking/cek', [TrackingController::class, 'cek'])->name('tracking.cek');
-Route::get('/tracking/{invoice}', [TrackingController::class, 'show'])->name('tracking.show');
 
 // ==================== ROUTE ADMIN ====================
 // Login Admin (tanpa middleware)
@@ -73,10 +62,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
     Route::get('/pesanan/{id}', [PesananController::class, 'show'])->name('pesanan.show');
     Route::put('/pesanan/{id}/status', [PesananController::class, 'updateStatus'])->name('pesanan.status');
+    Route::put('/pesanan/{id}/harga-final', [PesananController::class, 'updateHargaFinal'])->name('pesanan.harga-final');
 
     // Route Transaksi
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+    Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
+    Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
     Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+    Route::get('/transaksi/{id}/edit', [TransaksiController::class, 'edit'])->name('transaksi.edit');
+    Route::put('/transaksi/{id}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.status');
+    
+    // ✅ Route Laporan (TAMBAHKAN INI)
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 });
 
 // ==================== ROUTE DASHBOARD & AUTH ====================

@@ -18,33 +18,6 @@
     </div>
 </div>
 
-<!-- Checkout Progress -->
-<div class="bg-white border-b border-gray-100">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div class="flex items-center justify-center gap-3 md:gap-6">
-            <!-- Step 1: Alamat (Aktif) -->
-            <div class="flex items-center gap-1.5">
-                <div class="w-6 h-6 bg-[#B08968] text-white rounded-full flex items-center justify-center text-xs font-semibold">1</div>
-                <span class="font-medium text-xs text-[#B08968]">Alamat</span>
-            </div>
-            <div class="w-8 h-px bg-gray-200"></div>
-            
-            <!-- Step 2: Pengiriman -->
-            <div class="flex items-center gap-1.5">
-                <div class="w-6 h-6 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center text-xs font-semibold">2</div>
-                <span class="font-medium text-xs text-gray-400">Pengiriman</span>
-            </div>
-            <div class="w-8 h-px bg-gray-200"></div>
-            
-            <!-- Step 3: Pembayaran -->
-            <div class="flex items-center gap-1.5">
-                <div class="w-6 h-6 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center text-xs font-semibold">3</div>
-                <span class="font-medium text-xs text-gray-400">Pembayaran</span>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Form Alamat -->
 <div class="bg-white py-8">
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,12 +32,12 @@
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                         <img src="{{ asset('images/' . $produk->gambar_utama) }}" 
-                             alt="{{ $produk->nama_produk }}"
-                             class="w-full h-full object-cover">
+                            alt="{{ $produk->nama_produk }}"
+                            class="w-full h-full object-cover">
                     </div>
                     <div class="flex-1">
                         <h3 class="font-semibold text-sm text-gray-900">{{ $produk->nama_produk }}</h3>
-                        <p class="text-xs text-gray-500">Rp {{ number_format($produk->harga, 0, ',', '.') }} (estimasi /meter)</p>
+                        <p class="text-xs text-gray-500">Harga akan ditentukan setelah survey & pengukuran</p>
                     </div>
                 </div>
             </div>
@@ -202,15 +175,15 @@
                 <div class="mt-6">
                     <button type="submit" 
                             class="w-full bg-[#B08968] text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-[#8B6F4F] transition duration-300 shadow-md hover:shadow-lg text-sm">
-                        Lanjutkan ke Pengiriman
+                        KIRIM PESANAN
                     </button>
                 </div>
                 
-                <!-- Tombol Hapus Data Tersimpan (Opsional) -->
+                <!-- Tombol Hapus Data Tersimpan -->
                 <div class="mt-3 text-center">
                     <button type="button" 
                             id="resetDataBtn"
-                            class="text-xs text-gray-400 hover:text-red-500 transition">
+                            class="text-xs text-red-400 hover:text-red-600 transition">
                         Hapus Data Tersimpan
                     </button>
                 </div>
@@ -219,19 +192,15 @@
     </div>
 </div>
 
-<!-- SCRIPT LOCAL STORAGE -->
 <script>
     // KEY untuk menyimpan di localStorage
     const STORAGE_KEY = 'guest_checkout_data';
     
-    // Fungsi untuk mengambil data dari localStorage
     function loadSavedData() {
         const savedData = localStorage.getItem(STORAGE_KEY);
         if (savedData) {
             try {
                 const data = JSON.parse(savedData);
-                
-                // Isi input dengan data yang tersimpan (hanya jika input kosong)
                 if (data.nama_lengkap && !document.getElementById('nama_lengkap').value) 
                     document.getElementById('nama_lengkap').value = data.nama_lengkap;
                 if (data.email && !document.getElementById('email').value) 
@@ -252,7 +221,6 @@
         }
     }
     
-    // Fungsi untuk menyimpan data ke localStorage
     function saveFormData() {
         const formData = {
             nama_lengkap: document.getElementById('nama_lengkap').value,
@@ -264,15 +232,12 @@
             catatan: document.getElementById('catatan').value,
             last_updated: new Date().toISOString()
         };
-        
         localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
     }
     
-    // Fungsi untuk menghapus data tersimpan
     function resetSavedData() {
         if (confirm('Apakah Anda yakin ingin menghapus semua data alamat tersimpan?')) {
             localStorage.removeItem(STORAGE_KEY);
-            // Reset semua input form
             document.getElementById('nama_lengkap').value = '';
             document.getElementById('email').value = '';
             document.getElementById('no_wa').value = '';
@@ -284,11 +249,9 @@
         }
     }
     
-    // Load data saat halaman dimuat
     document.addEventListener('DOMContentLoaded', function() {
         loadSavedData();
         
-        // Simpan data saat input berubah (real-time)
         const inputIds = ['nama_lengkap', 'email', 'no_wa', 'kota', 'kecamatan', 'alamat_lengkap', 'catatan'];
         inputIds.forEach(id => {
             const input = document.getElementById(id);
@@ -298,14 +261,12 @@
             }
         });
         
-        // Event listener untuk tombol reset
         const resetBtn = document.getElementById('resetDataBtn');
         if (resetBtn) {
             resetBtn.addEventListener('click', resetSavedData);
         }
     });
     
-    // Simpan data juga saat form akan disubmit (opsional)
     const checkoutForm = document.getElementById('checkoutForm');
     if (checkoutForm) {
         checkoutForm.addEventListener('submit', function() {
