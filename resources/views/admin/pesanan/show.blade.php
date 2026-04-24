@@ -62,7 +62,7 @@
         </div>
     </div>
     
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <!-- INFORMASI PELANGGAN -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover">
             <div class="px-5 py-3.5 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
@@ -110,47 +110,6 @@
                         <p class="text-[10px] text-gray-400 uppercase tracking-wide">Catatan</p>
                         <p class="font-medium text-gray-600 text-sm mt-0.5 italic">{{ $pesanan->catatan }}</p>
                     </div>
-                </div>
-                @endif
-            </div>
-        </div>
-        
-        <!-- INFORMASI DEAL & HARGA FINAL -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover">
-            <div class="px-5 py-3.5 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <h3 class="font-semibold text-gray-800 text-sm">
-                    <i class="fas fa-handshake text-[#B08968] mr-2"></i> Deal & Harga Final
-                </h3>
-            </div>
-            <div class="p-5">
-                <div class="mb-4">
-                    <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Status Deal</p>
-                    <div class="mb-3">
-                        @if($pesanan->status_deal == 'menunggu')
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-100 text-amber-700 rounded-xl text-xs font-medium">
-                                <i class="fas fa-clock text-amber-500 text-xs"></i> ⏳ Menunggu Deal
-                            </span>
-                        @elseif($pesanan->status_deal == 'deal')
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-700 rounded-xl text-xs font-medium">
-                                <i class="fas fa-check-circle text-green-500 text-xs"></i> ✅ Sudah Deal
-                            </span>
-                        @else
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-100 text-red-700 rounded-xl text-xs font-medium">
-                                <i class="fas fa-times-circle text-red-500 text-xs"></i> ❌ Batal
-                            </span>
-                        @endif
-                    </div>
-                </div>
-                
-                <div class="mb-4">
-                    <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Harga Estimasi Awal</p>
-                    <p class="text-lg font-semibold text-gray-600">Rp {{ number_format($pesanan->total_harga, 0, ',', '.') }}</p>
-                </div>
-                
-                @if($pesanan->harga_final)
-                <div class="mb-4">
-                    <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Harga Final (Hasil Deal)</p>
-                    <p class="text-lg font-bold text-green-600">Rp {{ number_format($pesanan->harga_final, 0, ',', '.') }}</p>
                 </div>
                 @endif
             </div>
