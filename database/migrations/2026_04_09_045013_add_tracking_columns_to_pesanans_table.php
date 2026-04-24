@@ -29,7 +29,7 @@ return new class extends Migration
                 'kode_invoice', 'nama_pelanggan', 'no_wa', 'alamat_lengkap',
                 'kurir', 'metode_pembayaran', 'bukti_pembayaran',
                 'tanggal_konfirmasi', 'tanggal_diproses', 'tanggal_dikirim', 'tanggal_selesai'
-            ]);
+            ]); 
         });
     }
 };
