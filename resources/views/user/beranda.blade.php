@@ -7,7 +7,7 @@
     <div class="relative min-h-[550px] md:min-h-[600px] flex items-center justify-center overflow-hidden">
         <!-- BACKGROUND IMAGE -->
         <div class="absolute inset-0 z-0">
-            <img src="{{ asset('images/gambarberanda9.jpeg') }}" 
+            <img src="{{ asset('images/gambarberanda8.jpeg') }}" 
                  alt="Hero Background" 
                  class="w-full h-full object-cover object-center">
             <!-- OVERLAY GELAP - INI KUNCINYA! -->
