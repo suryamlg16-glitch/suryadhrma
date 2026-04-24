@@ -22,10 +22,10 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-8">
             <!-- Gambar Produk -->
             <div class="flex justify-center">
-                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm max-w-md w-full">
+                <div class="rounded-lg overflow-hidden shadow-sm w-full">
                     <img src="{{ asset('images/' . ($produk->gambar_utama ?? 'imagemeja.jpeg')) }}" 
-                         alt="{{ $produk->nama_produk ?? 'Produk' }}"
-                         class="w-full h-auto object-cover">
+                        alt="{{ $produk->nama_produk ?? 'Produk' }}"
+                        class="w-full h-full object-contain">
                 </div>
             </div>
             
