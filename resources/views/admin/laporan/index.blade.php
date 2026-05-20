@@ -320,7 +320,6 @@
             data: {
                 labels: {!! json_encode($namaBulan) !!},
                 datasets: [{
-                    label: 'Pendapatan (Rp)',
                     data: {!! json_encode($dataGrafik) !!},
                     borderColor: '#B08968',
                     backgroundColor: 'rgba(176, 137, 104, 0.1)',

@@ -13,40 +13,53 @@ class LaporanController extends Controller
     {
         $tahun = $request->tahun ?? date('Y');
         
+        // ========== STATISTIK UTAMA ==========
+        
         // Pendapatan Bulan Ini
         $pendapatanBulanIni = Pembayaran::where('status', 'sukses')
-            ->whereYear('tanggal_pembayaran', date('Y'))
-            ->whereMonth('tanggal_pembayaran', date('m'))
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('m'))
             ->sum('total_harga');
         
         // Pendapatan Tahun Ini
         $pendapatanTahunIni = Pembayaran::where('status', 'sukses')
-            ->whereYear('tanggal_pembayaran', $tahun)
+            ->whereYear('created_at', $tahun)
             ->sum('total_harga');
         
-        // Rata-rata per bulan
+        // Rata-rata per bulan di tahun ini
         $rataRataPerBulan = $pendapatanTahunIni / 12;
         
-        // Total Transaksi
-        $totalTransaksi = Pembayaran::whereYear('tanggal_pembayaran', $tahun)->count();
+        // Total Transaksi Tahun Ini
+        $totalTransaksi = Pembayaran::whereYear('created_at', $tahun)->count();
         
-        // Data Grafik
+        // ========== DATA GRAFIK ==========
+        
         $dataGrafik = [];
         $namaBulan = [];
-        $dataBulanan = [];
         
         for ($bulan = 1; $bulan <= 12; $bulan++) {
             $pendapatan = Pembayaran::where('status', 'sukses')
-                ->whereYear('tanggal_pembayaran', $tahun)
-                ->whereMonth('tanggal_pembayaran', $bulan)
+                ->whereYear('created_at', $tahun)
+                ->whereMonth('created_at', $bulan)
                 ->sum('total_harga');
-            
-            $jumlahTransaksi = Pembayaran::whereYear('tanggal_pembayaran', $tahun)
-                ->whereMonth('tanggal_pembayaran', $bulan)
-                ->count();
             
             $dataGrafik[] = $pendapatan;
             $namaBulan[] = Carbon::create()->month($bulan)->translatedFormat('F');
+        }
+        
+        // ========== DATA TABEL BULANAN ==========
+        
+        $dataBulanan = [];
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            $pendapatan = Pembayaran::where('status', 'sukses')
+                ->whereYear('created_at', $tahun)
+                ->whereMonth('created_at', $bulan)
+                ->sum('total_harga');
+            
+            $jumlahTransaksi = Pembayaran::whereYear('created_at', $tahun)
+                ->whereMonth('created_at', $bulan)
+                ->count();
+            
             $dataBulanan[] = [
                 'bulan' => Carbon::create()->month($bulan)->translatedFormat('F'),
                 'pendapatan' => $pendapatan,
@@ -54,15 +67,38 @@ class LaporanController extends Controller
             ];
         }
         
-        // Query untuk transaksi list
-        $transaksiList = Pembayaran::with('pesanan')
-            ->whereYear('tanggal_pembayaran', $tahun)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        // ========== TABEL RINCI TRANSAKSI (DENGAN PAGINATION & SEARCH) ==========
+        
+        $query = Pembayaran::with('pesanan')
+            ->whereYear('created_at', $tahun)
+            ->orderBy('created_at', 'desc');
+        
+        // Search berdasarkan kode transaksi atau nama pelanggan
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('kode_transaksi', 'like', '%' . $search . '%')
+                  ->orWhereHas('pesanan', function($sub) use ($search) {
+                      $sub->where('nama_pelanggan', 'like', '%' . $search . '%');
+                  });
+            });
+        }
+        
+        $transaksiList = $query->paginate(10);
+        
+        // Menjaga filter tahun dan search saat pagination
+        $transaksiList->appends($request->only(['tahun', 'search']));
         
         return view('admin.laporan.index', compact(
-            'tahun', 'pendapatanBulanIni', 'pendapatanTahunIni', 'rataRataPerBulan',
-            'totalTransaksi', 'dataGrafik', 'namaBulan', 'dataBulanan', 'transaksiList'
+            'pendapatanBulanIni', 
+            'pendapatanTahunIni', 
+            'rataRataPerBulan',
+            'totalTransaksi', 
+            'dataGrafik', 
+            'namaBulan', 
+            'dataBulanan', 
+            'tahun',
+            'transaksiList'  // ✅ TAMBAHKAN INI
         ));
     }
 }
