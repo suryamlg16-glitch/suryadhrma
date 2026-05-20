@@ -346,11 +346,7 @@
                         }
                     },
                     legend: {
-                        position: 'top',
-                        labels: {
-                            font: { size: 11 },
-                            boxWidth: 12
-                        }
+                        display: false
                     }
                 },
                 scales: {
