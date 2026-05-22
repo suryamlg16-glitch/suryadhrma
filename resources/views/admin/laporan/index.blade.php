@@ -142,7 +142,7 @@
                 <i class="fas fa-list-ul text-[#B08968] mr-2"></i> Rincian Transaksi - {{ $tahun }}
             </h3>
             
-            {{-- Search - DIPERLEBAR --}}
+            {{-- Search --}}
             <div class="relative w-full sm:w-80 md:w-96">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -152,6 +152,29 @@
                               focus:outline-none focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968]
                               placeholder-gray-400 transition-all duration-200 w-full">
             </div>
+        </div>
+
+        {{-- Filter Bulan --}}
+        <div class="px-4 py-2 bg-gray-50 border-b border-gray-100 flex flex-wrap items-center gap-3">
+            <label class="text-[11px] text-gray-500 font-medium">Filter Bulan:</label>
+            <select id="filterBulan" class="px-3 py-1 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-[#B08968]/50">
+                <option value="">Semua Bulan</option>
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+            </select>
+            <button id="resetFilterBtn" class="px-3 py-1 text-xs text-gray-500 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                Reset Filter
+            </button>
         </div>
         
         <div class="overflow-x-auto">
@@ -238,59 +261,14 @@
             </table>
         </div>
 
-        {{-- Pagination yang DIPERBAGUS --}}
+        {{-- Pagination --}}
         <div class="px-4 py-3 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p class="text-xs text-gray-400">
                 Menampilkan {{ $transaksiList->firstItem() ?? 0 }}–{{ $transaksiList->lastItem() ?? 0 }}
                 dari {{ $transaksiList->total() }} transaksi
             </p>
             <div class="flex justify-center">
-                @if ($transaksiList->hasPages())
-                    <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        {{-- Previous Page Link --}}
-                        @if ($transaksiList->onFirstPage())
-                            <span class="relative inline-flex items-center px-2 py-1.5 rounded-l-md border border-gray-200 bg-gray-100 text-gray-300 text-xs cursor-not-allowed">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                                </svg>
-                            </span>
-                        @else
-                            <a href="{{ $transaksiList->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-1.5 rounded-l-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-[#B08968] text-xs transition-all duration-150">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                                </svg>
-                            </a>
-                        @endif
-
-                        {{-- Pagination Elements --}}
-                        @foreach ($transaksiList->getUrlRange(1, $transaksiList->lastPage()) as $page => $url)
-                            @if ($page == $transaksiList->currentPage())
-                                <span class="relative inline-flex items-center px-3 py-1.5 border border-[#B08968] bg-[#B08968] text-white text-xs font-medium">
-                                    {{ $page }}
-                                </span>
-                            @else
-                                <a href="{{ $url }}" class="relative inline-flex items-center px-3 py-1.5 border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:text-[#B08968] text-xs transition-all duration-150">
-                                    {{ $page }}
-                                </a>
-                            @endif
-                        @endforeach
-
-                        {{-- Next Page Link --}}
-                        @if ($transaksiList->hasMorePages())
-                            <a href="{{ $transaksiList->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-1.5 rounded-r-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-[#B08968] text-xs transition-all duration-150">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
-                            </a>
-                        @else
-                            <span class="relative inline-flex items-center px-2 py-1.5 rounded-r-md border border-gray-200 bg-gray-100 text-gray-300 text-xs cursor-not-allowed">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
-                            </span>
-                        @endif
-                    </nav>
-                @endif
+                {{ $transaksiList->appends(request()->query())->links() }}
             </div>
         </div>
     </div>
@@ -387,6 +365,39 @@
                     row.style.display = 'none';
                 }
             });
+        });
+    }
+
+    // Filter Bulan
+    const filterBulan = document.getElementById('filterBulan');
+    const resetFilterBtn = document.getElementById('resetFilterBtn');
+
+    if (filterBulan) {
+        // Set nilai select sesuai URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const bulanParam = urlParams.get('bulan');
+        if (bulanParam) {
+            filterBulan.value = bulanParam;
+        }
+        
+        filterBulan.addEventListener('change', function() {
+            const url = new URL(window.location.href);
+            if (this.value) {
+                url.searchParams.set('bulan', this.value);
+            } else {
+                url.searchParams.delete('bulan');
+            }
+            url.searchParams.set('page', '1');
+            window.location.href = url.toString();
+        });
+    }
+
+    if (resetFilterBtn) {
+        resetFilterBtn.addEventListener('click', function() {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('bulan');
+            url.searchParams.set('page', '1');
+            window.location.href = url.toString();
         });
     }
 </script>
