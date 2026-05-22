@@ -146,13 +146,15 @@
                     <div class="relative overflow-hidden">
                         <div class="aspect-[9/14]">
                             <img src="{{ asset('images/imagedapur2.jpeg') }}"
-                                 alt="Kategori Kiri"
+                                 alt="Kitchen Set"
                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
-                    <div class="p-4 border-t border-gray-100">
-                        <h3 class="text-sm font-semibold text-gray-800 mb-1">Kitchen Set Minimalis</h3>
+                    <div class="p-5 border-t border-gray-100 text-center">
+                        <h3 class="font-bold text-base md:text-lg text-gray-900 tracking-wide group-hover:text-[#B08968] transition-colors duration-300">
+                            Kitchen Set Minimalis
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -163,13 +165,15 @@
                     <div class="relative overflow-hidden">
                         <div class="aspect-[9/16]">
                             <img src="{{ asset('images/imagelemari.jpeg') }}"
-                                 alt="Kategori Tengah"
+                                 alt="Lemari Pakaian"
                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
-                    <div class="p-4 border-t border-gray-100">
-                        <h3 class="text-sm font-semibold text-gray-800 mb-1">Lemari Pakaian Set Meja Rias Minimalis</h3>
+                    <div class="p-5 border-t border-gray-100 text-center">
+                        <h3 class="font-bold text-base md:text-lg text-gray-900 tracking-wide group-hover:text-[#B08968] transition-colors duration-300">
+                            Lemari Pakaian Set Meja Rias Minimalis
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -180,13 +184,15 @@
                     <div class="relative overflow-hidden">
                         <div class="aspect-[9/15]">
                             <img src="{{ asset('images/imageruangtamu.jpeg') }}"
-                                 alt="Kategori Kanan"
+                                 alt="Meja TV"
                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
-                    <div class="p-4 border-t border-gray-100">
-                        <h3 class="text-sm font-semibold text-gray-800 mb-1">Meja TV Minimalis</h3>
+                    <div class="p-5 border-t border-gray-100 text-center">
+                        <h3 class="font-bold text-base md:text-lg text-gray-900 tracking-wide group-hover:text-[#B08968] transition-colors duration-300">
+                            Meja TV Minimalis
+                        </h3>
                     </div>
                 </div>
             </div>
