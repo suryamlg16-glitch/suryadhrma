@@ -15,8 +15,8 @@
                 <p class="text-white/80 text-xs mt-0.5">Rekap pendapatan dan grafik tren per bulan</p>
             </div>
             <div class="flex gap-2">
-                <form method="GET" action="{{ route('admin.laporan.index') }}" id="tahunForm" class="flex gap-2">
-                    <select name="tahun" id="tahunSelect" class="px-3 py-2 text-sm border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/50">
+                <form method="GET" action="{{ route('admin.laporan.index') }}" class="flex gap-2">
+                    <select name="tahun" class="px-3 py-2 text-sm border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/50">
                         @for($i = date('Y') - 2; $i <= date('Y') + 1; $i++)
                         <option value="{{ $i }}" {{ $tahun == $i ? 'selected' : '' }} class="text-gray-800">{{ $i }}</option>
                         @endfor
@@ -137,46 +137,44 @@
 
     {{-- ========== TABEL RINCI TRANSAKSI ========== --}}
     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-4 py-3 border-b border-gray-100 bg-gray-50">
+        <div class="px-4 py-3 border-b border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <h3 class="text-sm font-semibold text-gray-800">
                 <i class="fas fa-list-ul text-[#B08968] mr-2"></i> Rincian Transaksi - {{ $tahun }}
             </h3>
-        </div>
-
-        {{-- Filter dan Search dalam satu baris --}}
-        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-3">
-            {{-- Filter Bulan --}}
-            <div class="flex items-center gap-2">
-                <label class="text-xs text-gray-500 font-medium">Filter Bulan:</label>
-                <select id="filterBulan" class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-[#B08968]/50">
-                    <option value="">Semua Bulan</option>
-                    <option value="1">Januari</option>
-                    <option value="2">Februari</option>
-                    <option value="3">Maret</option>
-                    <option value="4">April</option>
-                    <option value="5">Mei</option>
-                    <option value="6">Juni</option>
-                    <option value="7">Juli</option>
-                    <option value="8">Agustus</option>
-                    <option value="9">September</option>
-                    <option value="10">Oktober</option>
-                    <option value="11">November</option>
-                    <option value="12">Desember</option>
-                </select>
-                <button id="resetFilterBtn" class="px-3 py-1.5 text-xs text-gray-500 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-                    Reset
-                </button>
-            </div>
-
+            
             {{-- Search --}}
-            <div class="relative w-full sm:w-80">
+            <div class="relative w-full sm:w-80 md:w-96">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
-                <input type="text" id="searchInput" placeholder="Cari nama pelanggan atau kode transaksi..."
-                       value="{{ request('search') }}"
-                       class="pl-9 pr-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968] w-full">
+                <input type="text" id="searchTransaksi" placeholder="Cari nama pelanggan..."
+                       class="pl-9 pr-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-white
+                              focus:outline-none focus:ring-2 focus:ring-[#B08968]/25 focus:border-[#B08968]
+                              placeholder-gray-400 transition-all duration-200 w-full">
             </div>
+        </div>
+
+        {{-- Filter Bulan --}}
+        <div class="px-4 py-2 bg-gray-50 border-b border-gray-100 flex flex-wrap items-center gap-3">
+            <label class="text-[11px] text-gray-500 font-medium">Filter Bulan:</label>
+            <select id="filterBulan" class="px-3 py-1 text-sm border border-gray-200 rounded-lg bg-white focus:ring-2 focus:ring-[#B08968]/50">
+                <option value="">Semua Bulan</option>
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+            </select>
+            <button id="resetFilterBtn" class="px-3 py-1 text-xs text-gray-500 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                Reset Filter
+            </button>
         </div>
         
         <div class="overflow-x-auto">
@@ -203,8 +201,8 @@
                             <span class="text-xs font-mono font-medium text-gray-800">{{ $item->kode_transaksi }}</span>
                         </td>
                         <td class="px-4 py-2.5 text-xs text-gray-500 whitespace-nowrap">
-                            {{ \Carbon\Carbon::parse($item->tanggal_pembayaran)->format('d/m/Y') }}
-                            <span class="text-[10px] text-gray-400 ml-1">{{ \Carbon\Carbon::parse($item->tanggal_pembayaran)->format('H:i') }}</span>
+                            {{ $item->created_at->format('d/m/Y') }}
+                            <span class="text-[10px] text-gray-400 ml-1">{{ $item->created_at->format('H:i') }}</span>
                         </td>
                         <td class="px-4 py-2.5">
                             <p class="text-xs font-medium text-gray-800">{{ $item->pesanan->nama_pelanggan ?? '-' }}</p>
@@ -293,7 +291,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // ========== GRAFIK ==========
         const ctx = document.getElementById('pendapatanChart').getContext('2d');
         
         new Chart(ctx, {
@@ -348,70 +345,61 @@
                 }
             }
         });
+    });
 
-        // ========== FILTER BULAN (RELOAD HALAMAN) ==========
-        const filterBulan = document.getElementById('filterBulan');
-        const resetFilterBtn = document.getElementById('resetFilterBtn');
-        const searchInput = document.getElementById('searchInput');
-        const tahunSelect = document.getElementById('tahunSelect');
+    // Search functionality untuk tabel rincian transaksi
+    const searchInput = document.getElementById('searchTransaksi');
+    const tableRows = document.querySelectorAll('.transaksi-row');
+    
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            tableRows.forEach(row => {
+                const kode = row.getAttribute('data-kode') || '';
+                const pelanggan = row.getAttribute('data-pelanggan') || '';
+                
+                if (kode.includes(searchTerm) || pelanggan.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
 
-        // Set nilai select bulan sesuai URL
+    // Filter Bulan
+    const filterBulan = document.getElementById('filterBulan');
+    const resetFilterBtn = document.getElementById('resetFilterBtn');
+
+    if (filterBulan) {
+        // Set nilai select sesuai URL parameter
         const urlParams = new URLSearchParams(window.location.search);
         const bulanParam = urlParams.get('bulan');
-        if (bulanParam && filterBulan) {
+        if (bulanParam) {
             filterBulan.value = bulanParam;
         }
-
-        // Event filter bulan
-        if (filterBulan) {
-            filterBulan.addEventListener('change', function() {
-                const url = new URL(window.location.href);
-                if (this.value) {
-                    url.searchParams.set('bulan', this.value);
-                } else {
-                    url.searchParams.delete('bulan');
-                }
-                url.searchParams.set('page', '1');
-                window.location.href = url.toString();
-            });
-        }
-
-        // Event reset filter
-        if (resetFilterBtn) {
-            resetFilterBtn.addEventListener('click', function() {
-                const url = new URL(window.location.href);
+        
+        filterBulan.addEventListener('change', function() {
+            const url = new URL(window.location.href);
+            if (this.value) {
+                url.searchParams.set('bulan', this.value);
+            } else {
                 url.searchParams.delete('bulan');
-                url.searchParams.delete('search');
-                url.searchParams.set('page', '1');
-                window.location.href = url.toString();
-            });
-        }
+            }
+            url.searchParams.set('page', '1');
+            window.location.href = url.toString();
+        });
+    }
 
-        // ========== SEARCH (RELOAD HALAMAN) ==========
-        let searchTimeout;
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    const url = new URL(window.location.href);
-                    if (this.value) {
-                        url.searchParams.set('search', this.value);
-                    } else {
-                        url.searchParams.delete('search');
-                    }
-                    url.searchParams.set('page', '1');
-                    window.location.href = url.toString();
-                }, 500);
-            });
-        }
-
-        // ========== TAHUN (SUBMIT OTOMATIS) ==========
-        if (tahunSelect) {
-            tahunSelect.addEventListener('change', function() {
-                document.getElementById('tahunForm').submit();
-            });
-        }
-    });
+    if (resetFilterBtn) {
+        resetFilterBtn.addEventListener('click', function() {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('bulan');
+            url.searchParams.set('page', '1');
+            window.location.href = url.toString();
+        });
+    }
 </script>
 
 <style>
