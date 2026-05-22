@@ -127,75 +127,72 @@
     </div>
 
     <!-- KATEGORI INSPIRASI -->
-    <div class="bg-gradient-to-b from-gray-50 to-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-10 reveal" data-delay="0">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
-                    Kategori <span class="text-[#B08968]">Inspirasi</span>
-                </h2>
-                <div class="w-9 h-0.5 bg-[#B08968] mx-auto mt-3 rounded-full"></div>
-                <p class="text-sm text-gray-500 mt-3 max-w-md mx-auto">
-                    Temukan furniture custom sesuai gaya ruangan Anda
-                </p>
+<div class="bg-gradient-to-b from-gray-50 to-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10 reveal" data-delay="0">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+                Kategori <span class="text-[#B08968]">Inspirasi</span>
+            </h2>
+            <div class="w-9 h-0.5 bg-[#B08968] mx-auto mt-3 rounded-full"></div>
+            <p class="text-sm text-gray-500 mt-3 max-w-md mx-auto">
+                Temukan furniture custom sesuai gaya ruangan Anda
+            </p>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-end justify-center gap-6 max-w-4xl mx-auto pb-10">
+            <!-- KIRI -->
+            <div class="group cursor-pointer reveal w-full md:w-1/3 md:mb-10" data-delay="0.1">
+                <div class="relative bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-lg">
+                    <div class="relative overflow-hidden">
+                        <div class="aspect-[9/14]">
+                            <img src="{{ asset('images/imagedapur2.jpeg') }}"
+                                 alt="Kategori Kiri"
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-1">Kitchen Set Minimalis</h3>
+                    </div>
+                </div>
             </div>
 
-            <div class="flex flex-col md:flex-row items-end justify-center gap-6 max-w-4xl mx-auto pb-10">
-                <!-- KIRI - Kursi (pendek) -->
-                <div class="group cursor-pointer reveal w-full md:w-1/3 md:mb-10" data-delay="0.1">
-                    <div class="relative bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-lg">
-                        <div class="relative overflow-hidden">
-                            <div class="aspect-[9/14]">
-                                <img src="{{ asset('images/imagedekorasi.jpeg') }}"
-                                     alt="Kursi Custom"
-                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <!-- TENGAH -->
+            <div class="group cursor-pointer reveal w-full md:w-1/3" data-delay="0.2">
+                <div class="relative bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-lg shadow-md">
+                    <div class="relative overflow-hidden">
+                        <div class="aspect-[9/16]">
+                            <img src="{{ asset('images/imagelemari.jpeg') }}"
+                                 alt="Kategori Tengah"
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         </div>
-                        <div class="p-4 border-t border-gray-100">
-                            <h3 class="text-sm font-semibold text-gray-800 mb-1">Kursi Custom</h3>
-                            <p class="text-xs text-gray-400">Mulai <span class="text-[#B08968] font-semibold">Rp 800.000</span></p>
-                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-1">Lemari Pakaian Set Meja Rias Minimalis</h3>
                     </div>
                 </div>
+            </div>
 
-                <!-- TENGAH - Meja (paling tinggi / featured) -->
-                <div class="group cursor-pointer reveal w-full md:w-1/3" data-delay="0.2">
-                    <div class="relative bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-lg shadow-md">
-                        <div class="relative overflow-hidden">
-                            <div class="aspect-[9/16]">
-                                <img src="{{ asset('images/imagelemari.jpeg') }}"
-                                     alt="Meja Custom"
-                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <!-- KANAN -->
+            <div class="group cursor-pointer reveal w-full md:w-1/3 md:mb-5" data-delay="0.3">
+                <div class="relative bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-lg">
+                    <div class="relative overflow-hidden">
+                        <div class="aspect-[9/15]">
+                            <img src="{{ asset('images/imageruangtamu.jpeg') }}"
+                                 alt="Kategori Kanan"
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         </div>
-                        <div class="p-4 border-t border-gray-100">
-                            <h3 class="text-sm font-semibold text-gray-800 mb-1">Meja Custom</h3>
-                            <p class="text-xs text-gray-400">Mulai <span class="text-[#B08968] font-semibold">Rp 1.200.000</span></p>
-                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
-                </div>
-
-                <!-- KANAN - Lemari (sedang) -->
-                <div class="group cursor-pointer reveal w-full md:w-1/3 md:mb-5" data-delay="0.3">
-                    <div class="relative bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-lg">
-                        <div class="relative overflow-hidden">
-                            <div class="aspect-[9/15]">
-                                <img src="{{ asset('images/imagedekorasi.jpeg') }}"
-                                     alt="Lemari Custom"
-                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        </div>
-                        <div class="p-4 border-t border-gray-100">
-                            <h3 class="text-sm font-semibold text-gray-800 mb-1">Lemari Custom</h3>
-                            <p class="text-xs text-gray-400">Mulai <span class="text-[#B08968] font-semibold">Rp 2.500.000</span></p>
-                        </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-1">Meja TV Minimalis</h3>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- PROSES PEMESANAN -->
     <div id="cara-memesan" class="bg-white py-8">
