@@ -336,12 +336,18 @@
 <style>
     .status-select {
         transition: all 0.2s ease;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
     }
     .status-select:hover {
         filter: brightness(0.98);
     }
     select {
         cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
     }
     input[type="date"]::-webkit-calendar-picker-indicator {
         cursor: pointer;
@@ -350,6 +356,12 @@
     }
     input[type="date"]::-webkit-calendar-picker-indicator:hover {
         opacity: 1;
+    }
+    
+    /* Hilangkan focus ring yang tidak perlu */
+    select:focus {
+        outline: none;
+        ring: 2px solid #B08968;
     }
 </style>
 @endsection
