@@ -259,7 +259,7 @@
                 @forelse($produkTerbaru as $index => $produk)
                 <div class="reveal group relative bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 hover:-translate-y-1 card-hover image-zoom" data-delay="{{ 0.1 + ($index * 0.1) }}">
                     <div class="relative pb-[100%] overflow-hidden">
-                        <img src="{{ asset('images/' . $produk->gambar_utama) }}" 
+                        <img src="https://541furniture.alwaysdata.net/images/{{ $produk->gambar_utama }}" 
                              alt="{{ $produk->nama_produk }}" 
                              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -267,7 +267,7 @@
                     <div class="p-3">
                         <h3 class="font-semibold text-sm text-gray-800 mb-1 line-clamp-1">{{ $produk->nama_produk }}</h3>
                         <div class="flex items-center justify-between">
-                            <p class="text-base font-bold text-[#B08968]">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                            <p class="text-base font-bold text-[#B08968]">Rp {{ number_format($produk->harga_per_meter, 0, ',', '.') }}</p>
                             <span class="text-xs text-gray-500">/meter</span>
                         </div>
                         <div class="mt-2">
