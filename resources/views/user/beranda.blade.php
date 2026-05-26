@@ -34,10 +34,10 @@
                         <span class="text-white">Ciptakan Ruang yang</span>
                         <span class="relative flex w-full justify-center overflow-hidden text-center min-h-[1.2em] mt-2 sm:mt-4">
                             <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="0" style="opacity: 0; transform: translateY(100%);">Berkualitas</span>
-                                <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="1" style="opacity: 0; transform: translateY(100%);">Elegan</span>
-                                <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="2" style="opacity: 0; transform: translateY(100%);">Fungsional</span>
-                                <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="3" style="opacity: 0; transform: translateY(100%);">Nyaman</span>
-                                <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="4" style="opacity: 0; transform: translateY(100%);">Sesuai Impian</span>
+                            <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="1" style="opacity: 0; transform: translateY(100%);">Elegan</span>
+                            <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="2" style="opacity: 0; transform: translateY(100%);">Fungsional</span>
+                            <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="3" style="opacity: 0; transform: translateY(100%);">Nyaman</span>
+                            <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="4" style="opacity: 0; transform: translateY(100%);">Sesuai Impian</span>
                         </span>
                     </h1>
 
@@ -211,7 +211,6 @@
             </div>
 
             <div class="relative">
-                <!-- Connector line -->
                 <div class="hidden md:block absolute z-0"
                      style="top: calc(20px + 24px); transform: translateY(-50%); left: calc(25% / 2 + 24px); right: calc(25% / 2 + 24px); height: 1px; background: repeating-linear-gradient(to right, #B08968 0, #B08968 6px, transparent 6px, transparent 12px); opacity: 0.4;">
                 </div>
@@ -259,7 +258,7 @@
                 @forelse($produkTerbaru as $index => $produk)
                 <div class="reveal group relative bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 hover:-translate-y-1 card-hover image-zoom" data-delay="{{ 0.1 + ($index * 0.1) }}">
                     <div class="relative pb-[100%] overflow-hidden">
-                        <img src="{{ asset('images/' . $produk->gambar_utama) }}" 
+                        <img src="https://541furniture.alwaysdata.net/images/{{ $produk->gambar_utama }}" 
                              alt="{{ $produk->nama_produk }}" 
                              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -267,7 +266,7 @@
                     <div class="p-3">
                         <h3 class="font-semibold text-sm text-gray-800 mb-1 line-clamp-1">{{ $produk->nama_produk }}</h3>
                         <div class="flex items-center justify-between">
-                            <p class="text-base font-bold text-[#B08968]">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                            <p class="text-base font-bold text-[#B08968]">Rp {{ number_format($produk->harga_per_meter, 0, ',', '.') }}</p>
                             <span class="text-xs text-gray-500">/meter</span>
                         </div>
                         <div class="mt-2">
@@ -364,9 +363,9 @@
 
 @push('scripts')
 <script>
-    // Animasi teks bergantian (smooth fade/slide)
+    // ========== ANIMASI HERO (TEKS BERUBAH OTOMATIS) ==========
     (function() {
-        const titles = ['Nyaman', 'Elegan', 'Fungsional', 'Berkualitas', 'Sesuai Impian'];
+        const titles = ['Berkualitas', 'Elegan', 'Fungsional', 'Nyaman', 'Sesuai Impian'];
         let currentIndex = 0;
         const titleElements = document.querySelectorAll('.animated-title');
         
@@ -395,7 +394,7 @@
         }
     })();
 
-    // Counter animation untuk statistik
+    // ========== COUNTER ANIMATION ==========
     (function() {
         const counters = document.querySelectorAll('.counter');
         
@@ -427,7 +426,7 @@
         counters.forEach(counter => observer.observe(counter));
     })();
 
-    // Reveal animation on scroll
+    // ========== REVEAL ANIMATION ON SCROLL ==========
     (function() {
         const revealElements = document.querySelectorAll('.reveal');
         
@@ -446,7 +445,6 @@
             });
         };
         
-        // Add CSS for reveal animation
         const style = document.createElement('style');
         style.textContent = `
             .reveal {
