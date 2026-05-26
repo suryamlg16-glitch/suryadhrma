@@ -33,7 +33,6 @@
                     <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-3xl tracking-tighter text-center font-bold">
                         <span class="text-white">Ciptakan Ruang yang</span>
                         <span class="relative flex w-full justify-center overflow-hidden text-center min-h-[1.2em] mt-2 sm:mt-4">
-                            <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="0" style="opacity: 0; transform: translateY(100%);">Berkualitas</span>
                             <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="1" style="opacity: 0; transform: translateY(100%);">Elegan</span>
                             <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="2" style="opacity: 0; transform: translateY(100%);">Fungsional</span>
                             <span class="animated-title absolute font-bold text-[#F5E6D3]" data-index="3" style="opacity: 0; transform: translateY(100%);">Nyaman</span>
